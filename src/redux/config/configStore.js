@@ -5,7 +5,6 @@ import chat from "../modules/chatSlice";
 import socket from "../modules/socketSlice";
 import messages from "../modules/socketSlice";
 import userList from "../modules/userSlice";
-import chatting from "../modules/chatWindowSlice";
 import dogInfo from "../modules/signupSlice";
 import chatList from "../modules/chatListSlice";
 /**
@@ -25,7 +24,6 @@ const store = configureStore({
     socket,
     messages,
     chatList,
-    chatting,
   },
 });
 export default store;

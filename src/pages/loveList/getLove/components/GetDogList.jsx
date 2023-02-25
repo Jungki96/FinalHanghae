@@ -11,10 +11,15 @@ const InfiniteScroll = () => {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const res = await axios.get(`http://localhost:3001/userList`);
+    const Authorization = sessionStorage.getItem("accessToken");
+    const res = await axios.get(`${process.env.REACT_APP_DOG}/loves/received`, {
+      headers: {
+        Authorization,
+      },
+    });
     // setData((prevData) => [...prevData, ...res.data]);
     setData(res.data);
-    console.log(data);
+    console.log(res);
     setLoading(false);
     setHasMore(res.data.length !== 0);
     if (res.data.length !== 0) {

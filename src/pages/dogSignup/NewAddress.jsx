@@ -67,7 +67,8 @@ const NewAddress = () => {
 
   // 얼른가자 멍 이후 메인페이지로
   const submitLogin = () => {
-    navigate("/home");
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -88,16 +89,11 @@ const NewAddress = () => {
                 {<DaumPostCode onComplete={handleComplete} />}
                 {!modalState && (
                   <div>
-                    <AddressInput
-                      onClick={() => setIsOpen(true)}
-                      value={address}
-                    />
+                    <AddressInput onClick={() => setIsOpen(true)} value={address} />
                     <StBtn type="submit" onClick={next}>
                       다음
                     </StBtn>
-                    <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
-                      뒤로
-                    </StBackBtn>
+                    <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
                   </div>
                 )}
               </AddForm>
@@ -112,8 +108,7 @@ const NewAddress = () => {
                 <br></br>
                 <br></br>
                 <div>
-                  가입을 축하드려요! <br /> 이제부터 본격적으로 <br /> 투개더🐶
-                  할까요?
+                  가입을 축하드려요! <br /> 이제부터 본격적으로 <br /> 투개더🐶 할까요?
                 </div>
                 <StLogo src={Congra} />
                 <br></br>
@@ -181,6 +176,7 @@ const AddForm = styled.form`
   flex-direction: column;
   padding: 35px 40px 25px 40px;
   margin-bottom: 10px;
+  margin-top: -5vh;
 `;
 
 const StBackBtn = styled.button`

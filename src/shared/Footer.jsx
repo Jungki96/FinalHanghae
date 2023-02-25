@@ -13,7 +13,7 @@ function Footer() {
     <StButtons>
       <IconButton
         onClick={() => {
-          navigate("/differntaddress");
+          navigate("/");
         }}
       >
         <AndroidIcon fontSize="large" />

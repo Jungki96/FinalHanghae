@@ -170,7 +170,7 @@ function SignUpForm() {
           <StBackBtn onClick={() => setSignup(!signup)}>뒤로</StBackBtn>
           {signup && (
             <DogSignUpModal closeModal={() => setSignup(!signup)}>
-              <DogModalDetail></DogModalDetail>
+              <DogModalDetail />
             </DogSignUpModal>
           )}
         </div>
@@ -185,12 +185,7 @@ function SignUpForm() {
             <StImg src={female} />
             <StDiv4>
               <StDiv5>
-                <input
-                  type="radio"
-                  name="dogSexRadio"
-                  value="Male"
-                  defaultChecked
-                />
+                <input type="radio" name="dogSexRadio" value="Male" defaultChecked />
                 <label>남</label>
               </StDiv5>
               <StDiv6>
@@ -202,9 +197,7 @@ function SignUpForm() {
           <StBtn className="on" onClick={next} disabled={!dogSexState}>
             다음
           </StBtn>{" "}
-          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
-            뒤로
-          </StBackBtn>
+          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
         </div>
       )}
 
@@ -252,9 +245,7 @@ function SignUpForm() {
             <StBtn onClick={next} disabled={!imageSrcs}>
               다음
             </StBtn>{" "}
-            <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
-              뒤로
-            </StBackBtn>
+            <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
           </Container>
         </div>
       )}
@@ -272,17 +263,11 @@ function SignUpForm() {
               setSignData({ ...signData, dogDetails: e.target.value });
             }}
           />
-          <StBtn
-            className="on"
-            onClick={combinedHandler}
-            disabled={!dogDetailsState}
-          >
+          <StBtn className="on" onClick={combinedHandler} disabled={!dogDetailsState}>
             다음
           </StBtn>
 
-          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
-            뒤로
-          </StBackBtn>
+          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
         </div>
       )}
     </StForm>

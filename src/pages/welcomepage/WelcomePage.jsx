@@ -15,13 +15,15 @@ function WelcomePage() {
 export default WelcomePage;
 
 const StContainer = styled.div`
+  max-width: 417px;
+  max-height: 879px;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   background-image: url("welecome.png");
-  /* background-position: center; */
+  background-position: center;
   background-size: cover;
   p {
     font-size: 116px;

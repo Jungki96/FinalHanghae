@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import CardlistPagination from "./CardlistPagination";
+
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ClearIcon from "@mui/icons-material/Clear";
+import Image from "./Image";
 
 const CardList = () => {
   const Authorization = sessionStorage.getItem("accessToken");
   const [dogs, setDogs] = useState([]);
   const [limit, setLimit] = useState(1);
   const [page, setPage] = useState(1);
-  const [mainImage, setMainImage] = useState("");
+  const [mainImage, setMainImage] = useState([]);
   const offset = (page - 1) * limit;
 
   const fetchList = async () => {
@@ -21,13 +22,18 @@ const CardList = () => {
       },
     });
     setDogs(data);
-    setMainImage(data.images[0].imageUrl);
-    console.log(data.images[0].imageUrl);
+    setMainImage(data.images);
   };
-  const handleFavoriteClick = (person) => {
-    alert("정말 매치하겠냐멍?");
-    // setDogs(...dogs, person);
+  const handleFavoriteClick = () => {
+    axios.get(`${process.env.REACT_APP_DOG}/match/love/${dogs.dogId}`, {
+      headers: {
+        Authorization,
+      },
+    });
+    alert("좋아요를 눌렀습니다.");
+    // window.location.reload();
   };
+
   useEffect(() => {
     fetchList();
   }, []);
@@ -35,28 +41,19 @@ const CardList = () => {
   return (
     <>
       <Container>
-        {/* {dogs
-          .slice(offset, offset + limit)
-          .map(({ images, dogName, dogSex, dogId, distance, dogDetails }) => (
-            <OneDog key={dogId}>
-              <StDog style={{ backgroundImage: `url(${mainImage})` }}>
-                <StName>{dogName}</StName>
-                <StName>{distance}</StName>
-                <StName>{dogSex}</StName>
-                <StName>{dogDetails}</StName>
-              </StDog>
-              <Space />
-            </OneDog>
-          ))} */}
-        <Space>
-          <CardlistPagination total={dogs.length} limit={limit} page={page} setPage={setPage} />
-        </Space>
+        <Image key={dogs.dogId} images={mainImage}>
+          <StName>{dogs.dogName}</StName>
+          <StName>{dogs.distance}</StName>
+          <StName>{dogs.dogSex}</StName>
+          <StName>{dogs.dogDetails}</StName>
+        </Image>
+        <Space />
         <div className="btnGruop">
-          <div className="circleBorder">
+          <STCircleBorder>
             <IconButton onClick={() => handleFavoriteClick()}>
               <FavoriteBorderIcon className="icon" />
             </IconButton>
-          </div>
+          </STCircleBorder>
           <div className="circleBorder">
             <IconButton>
               <ClearIcon className="icon" />
@@ -81,28 +78,21 @@ const Container = styled.div`
     margin-top: 20vh;
   }
 `;
-const StDog = styled.div`
-  position: relative;
-  width: 37vh;
-  height: 60vh;
-  border-radius: 20px;
-  background-size: cover;
-  background-position: center;
-  box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
-`;
 
 const StName = styled.h3`
   position: absolute;
   font-size: medium;
   bottom: 30px;
   color: beige;
+  z-index: 2;
 `;
 
-const OneDog = styled.div`
-  justify-content: flex-start;
-`;
 const Space = styled.div`
-  margin-top: -15vh;
+  margin-top: 1vh;
   display: flex;
   z-index: 1;
+`;
+
+const STCircleBorder = styled.div`
+  margin-right: 6vh;
 `;

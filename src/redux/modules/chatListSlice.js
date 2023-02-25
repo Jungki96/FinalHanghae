@@ -13,11 +13,11 @@ const initialState = {
 
 export const __getChatList = createAsyncThunk(
   "getChatList",
-  async (thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get("https://midcon.shop/chat/room");
-      console.log(123, data.data);
-      return thunkAPI.fulfillWithValue(data.data);
+      const { data } = await axios.get("http://localhost:3001/chatList");
+      console.log(123, data);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -59,9 +59,11 @@ export const chatListSlice = createSlice({
       state.isLoading = true;
     },
     // 네트워크 요청 끝났을 때, false로 변경
+    //state.chatList 이부분이 유저 셀렉터로 가져올거
     [__getChatList.fulfilled]: (state, action) => {
       state.isLoading = false; // 네트워크 요청이 끝났으니, false로 변경합니다.
-      state.todos = action.payload; // Store에 있는 todos에 서버에서 가져온 todos를 넣습니다.
+      state.chatList = action.payload; // Store에 있는 todos에 서버에서 가져온 todos를 넣습니다.
+      console.log("전체게시물 가져오기", action.payload);
     },
     // 에러발생! 네트워크 요청 끝났으니 false
     [__getChatList.rejected]: (state, action) => {

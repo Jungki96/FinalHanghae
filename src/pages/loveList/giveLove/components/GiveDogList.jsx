@@ -5,13 +5,19 @@ import GivePagination from "./GivePagination";
 
 const GiveDogList = () => {
   const [dogs, setDogs] = useState([]);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(2);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
   const fetchList = async () => {
-    const { data } = await axios.get(`http://localhost:3001/userList`);
+    const Authorization = sessionStorage.getItem("accessToken");
+    const { data } = await axios.get(`${process.env.REACT_APP_DOG}/loves/sent`, {
+      headers: {
+        Authorization,
+      },
+    });
     setDogs(data);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -21,22 +27,25 @@ const GiveDogList = () => {
   return (
     <>
       <Container>
-        {dogs.slice(offset, offset + limit).map(({ url, name, id }) => (
-          <OneDog key={id}>
-            <StDog style={{ backgroundImage: `url(${url})` }}>
-              <StName>{name}</StName>
+        {dogs.slice(offset, offset + limit).map(({ dogName, dogSex, imageUrl, userId }) => (
+          <OneDog key={userId}>
+            <StDog style={{ backgroundImage: `url(${imageUrl})` }}>
+              <StName>
+                {dogName}
+                {dogSex}
+              </StName>
             </StDog>
             <Space />
           </OneDog>
         ))}
         <Space>
-          <GivePagination
+          {/* <GivePagination
             //
             total={dogs.length}
             limit={limit}
             page={page}
             setPage={setPage}
-          />
+          /> */}
         </Space>
       </Container>
     </>
@@ -53,8 +62,8 @@ const Container = styled.div`
 `;
 const StDog = styled.div`
   position: relative;
-  width: 37vh;
-  height: 60vh;
+  width: 17vh;
+  height: 30vh;
   border-radius: 20px;
   background-size: cover;
   background-position: center;

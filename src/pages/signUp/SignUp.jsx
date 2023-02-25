@@ -31,7 +31,7 @@ function SignUp() {
   const [checkpassInput, setcheckpassInput] = useState("");
 
   //정규식
-  const regusername = /^[a-z0-9]{4,8}$/;
+  const regusername = /^[^a-z|A-Z|0-9|ㄱ-ㅎ|가-힣]{1,20}$/;
   const regEmail =
     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
   const regPassword = /^(?=.[A-Za-z])(?=.\\d)[A-Za-z\\d@$!%*#?&]{8,15}$/;
@@ -42,12 +42,12 @@ function SignUp() {
     setUser({ ...user, [name]: value });
 
     if (name === "username")
-      !regusername.test(value)
-        ? setusernameInput("소문자 + 숫자 허용 4~8자리입니다.")
-        : setusernameInput("");
+      !regusername.test(value) ? setusernameInput("") : setusernameInput("");
 
     if (name === "email")
-      !regEmail.test(value) ? setEmailInput("이메일 형식으로 입력해주세요.") : setEmailInput("");
+      !regEmail.test(value)
+        ? setEmailInput("이메일 형식으로 입력해주세요.")
+        : setEmailInput("");
 
     if (name === "password")
       !regPassword.test(value)
@@ -57,12 +57,18 @@ function SignUp() {
           )
         : setPassInput("");
     if (name === "check_password")
-      password !== value ? setcheckpassInput("비밀번호가 불일치합니다") : setcheckpassInput("");
+      password !== value
+        ? setcheckpassInput("비밀번호가 불일치합니다")
+        : setcheckpassInput("");
   };
   // 회원가입 POST요청 및 공백 존재 시 경고창 생성
   const onSubmitUserHandler = (e) => {
     e.preventDefault();
-    if (username.trim() === "" || email.trim() === "" || password.trim() === "") {
+    if (
+      username.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === ""
+    ) {
       return alert("아이디랑 비밀번호를 입력해주세요!");
     }
     if (password !== check_password) {
@@ -127,7 +133,9 @@ function SignUp() {
           <StP3 id="help-user" className="help">
             {emailInput}
           </StP3>
-          <StButton onClick={onSubmitUserCheckHandler}>이메일 중복확인</StButton>
+          <StButton onClick={onSubmitUserCheckHandler}>
+            이메일 중복확인
+          </StButton>
           <br />
           <br />
           <StP2>비밀번호</StP2>

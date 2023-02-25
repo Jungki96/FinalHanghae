@@ -7,6 +7,14 @@ import male from "../../../../assets/img/male.PNG";
 import female from "../../../../assets/img/female.PNG";
 import plusbutton from "../../../../assets/img/plusbutton.PNG";
 
+import DogSignUpModal from "../../../dogSignup/dogSignUpComponents/DogSignUpModal";
+import DogModalDetail from "../../../dogSignup/dogSignUpComponents/DogModalDetail";
+import DogSignUpTop from "../../../dogSignup/dogSignUpComponents/DogSignUpTop";
+import DogSignUpName from "../../../dogSignup/dogSignUpComponents/DogSignUpName";
+import DogSignUpSex from "../../../dogSignup/dogSignUpComponents/DogSignUpSex";
+import DogSignUpImage from "../../../dogSignup/dogSignUpComponents/DogSignUpImage";
+import DogSignUpDetail from "../../../dogSignup/dogSignUpComponents/DogSignUpDetail";
+
 // 회원가입 form 컴포넌트
 function SignUpForm() {
   const dispatch = useDispatch();
@@ -37,8 +45,9 @@ function SignUpForm() {
 
   //next 버튼 조건
   const next = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (signNumber === 0) {
+      // e.preventDefault();
       if (signData.dogName.length === 0 || signData.dogName.length > 5) {
         return;
       }
@@ -131,25 +140,19 @@ function SignUpForm() {
       }
     }
     const checkState = dispatch(__postDog(signData));
-    navigate("/address");
+    navigate("/newaddress");
   };
+  //모달창 띄우기
+  const [signup, setSignup] = useState(false);
 
   return (
     <StForm>
-      <StDiv>
-        <StP1>간편하게 가입하고</StP1>
-        <br />
-        <StP2>투개더를 이용해보세요.</StP2>
-      </StDiv>
+      <DogSignUpTop></DogSignUpTop>
 
       {signNumber === 0 && (
         <div>
           <StNum> ({signNumber + 1}/5)</StNum>
-          <StDiv2>
-            <StP3> 반가워요!</StP3>
-            <br />
-            <StP2>강아지 이름은 어떻게 되나요?</StP2>
-          </StDiv2>
+          <DogSignUpName></DogSignUpName>
           <StInput
             autoComplete="off"
             id="dogName"
@@ -160,21 +163,22 @@ function SignUpForm() {
               setDogSexState(true);
             }}
           />
-
           <StBtn className="on" onClick={next}>
             다음
           </StBtn>
+          <StBackBtn onClick={() => setSignup(!signup)}>뒤로</StBackBtn>
+          {signup && (
+            <DogSignUpModal closeModal={() => setSignup(!signup)}>
+              <DogModalDetail></DogModalDetail>
+            </DogSignUpModal>
+          )}
         </div>
       )}
 
       {signNumber === 1 && (
         <div>
           <StNum> ({signNumber + 1}/5)</StNum>
-          <StDiv3>
-            <StP3> 강아지의</StP3>
-            <br />
-            <StP2>강아지 성별은 어떻게 될까요?</StP2>
-          </StDiv3>
+          <DogSignUpSex></DogSignUpSex>
           <div>
             <StImg src={male} />
             <StImg src={female} />
@@ -189,84 +193,71 @@ function SignUpForm() {
               </StDiv6>
             </StDiv4>
           </div>
-          <StBtn
-            className="on"
-            onClick={() => {
-              formstate(false);
-            }}
-          >
-            뒤로
-          </StBtn>
           <StBtn className="on" onClick={next} disabled={!dogSexState}>
             다음
-          </StBtn>
+          </StBtn>{" "}
+          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
         </div>
       )}
 
       {signNumber === 2 && (
-        <Container>
-          <StNum> ({signNumber + 1}/5)</StNum>
-          <StDiv3>
-            <StP3> 강아지의</StP3>
-            <br />
-            <StP2>사진을 2장까지 추가 할 수있습니다.</StP2>
-          </StDiv3>
-          <StDiv4>
-            <div>
-              <ImagePreviewContainer>
-                {(imageSrcsText || []).map((url) => (
-                  <ImagePreview src={url} alt="..." />
-                ))}
-              </ImagePreviewContainer>
-              <InputContainer hasImage={imageSrcs.length > 0}>
-                <input
-                  required
-                  type="file"
-                  accept="image/jpeg, image/jpg, image/png"
-                  onChange={handleChangeFile}
-                  multiple
-                />
-                <StImg1 src={plusbutton} />
-              </InputContainer>
-            </div>
-            <div>
-              <ImagePreviewContainer>
-                {(imageSrcsText2 || []).map((url) => (
-                  <ImagePreview src={url} alt="..." />
-                ))}
-              </ImagePreviewContainer>
-              <InputContainer hasImage={imageSrcs2.length > 0}>
-                <input
-                  required
-                  type="file"
-                  accept="image/jpeg, image/jpg, image/png"
-                  onChange={handleChangeFile1}
-                  multiple
-                />
-                <StImg1 src={plusbutton} />
-              </InputContainer>
-            </div>
-          </StDiv4>
-          <StBtn onClick={next} disabled={!imageSrcs}>
-            다음
-          </StBtn>
-        </Container>
+        <div>
+          <Container>
+            <StNum> ({signNumber + 1}/5)</StNum>
+            <DogSignUpImage></DogSignUpImage>
+            <StDiv4>
+              <div>
+                <ImagePreviewContainer>
+                  {(imageSrcsText || []).map((url) => (
+                    <ImagePreview src={url} alt="..." />
+                  ))}
+                </ImagePreviewContainer>
+                <InputContainer hasImage={imageSrcs.length > 0}>
+                  <input
+                    required
+                    type="file"
+                    accept="image/jpeg, image/jpg, image/png"
+                    onChange={handleChangeFile}
+                    multiple
+                  />
+                  <StImg1 src={plusbutton} />
+                </InputContainer>
+              </div>
+              <div>
+                <ImagePreviewContainer>
+                  {(imageSrcsText2 || []).map((url) => (
+                    <ImagePreview src={url} alt="..." />
+                  ))}
+                </ImagePreviewContainer>
+                <InputContainer hasImage={imageSrcs2.length > 0}>
+                  <input
+                    required
+                    type="file"
+                    accept="image/jpeg, image/jpg, image/png"
+                    onChange={handleChangeFile1}
+                    multiple
+                  />
+                  <StImg1 src={plusbutton} />
+                </InputContainer>
+              </div>
+            </StDiv4>
+            <StBtn onClick={next} disabled={!imageSrcs}>
+              다음
+            </StBtn>{" "}
+            <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
+          </Container>
+        </div>
       )}
 
       {signNumber === 3 && (
         <div>
-          <StNum> ({signNumber + 1}/5)</StNum>
-          <StDiv3>
-            <StP3> 강아지의</StP3>
-            <br />
-            <StP2>성격을 20자 이하로 적어주세요.</StP2>
-          </StDiv3>
+          <StNum> (거의 다 왔어요!) </StNum>
+          <DogSignUpDetail></DogSignUpDetail>
           <StTextarea
             autoComplete="off"
             id="dogDetails"
             placeholder=" 친구를 사귀는데에 큰 도움이 되니 
-            최대한 자세히 적어주세요 :)"
-            required
+          최대한 자세히 적어주세요 :)"
             onChange={(e) => {
               setSignData({ ...signData, dogDetails: e.target.value });
             }}
@@ -274,6 +265,8 @@ function SignUpForm() {
           <StBtn className="on" onClick={combinedHandler} disabled={!dogDetailsState}>
             다음
           </StBtn>
+
+          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
         </div>
       )}
     </StForm>
@@ -281,54 +274,21 @@ function SignUpForm() {
 }
 
 export default SignUpForm;
-
-const StP1 = styled.div`
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const StP2 = styled.div`
-  font-size: 20px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-`;
-
-const StP3 = styled.div`
-  font-size: 20px;
-`;
-
-const StDiv = styled.div`
-  margin-top: 12vh;
-  margin-bottom: 10%;
-`;
-const StDiv2 = styled.div`
-  margin-bottom: 10%;
-`;
-const StDiv3 = styled.div`
-  margin-bottom: 15%;
-`;
 const StDiv4 = styled.div`
   display: flex;
   flex-direction: row;
 `;
 const StDiv5 = styled.div`
-  margin-left: 22%;
+  margin-left: 18%;
 `;
 const StDiv6 = styled.div`
-  margin-left: 35%;
+  margin-left: 31%;
   margin-bottom: 25%;
 `;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const ImagePreviewContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -336,7 +296,6 @@ const ImagePreviewContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
 `;
-
 const ImagePreview = styled.img`
   width: 118px;
   height: 160px;
@@ -345,7 +304,6 @@ const ImagePreview = styled.img`
   border-radius: 25px;
   border: 3px solid black;
 `;
-
 const InputContainer = styled.div`
   position: relative;
   width: 118px;
@@ -373,7 +331,6 @@ const InputContainer = styled.div`
     left: 0;
   }
 `;
-
 const StNum = styled.div`
   margin-top: -13%;
   font-size: 20px;
@@ -388,7 +345,6 @@ const StImg = styled.img`
   height: 96px;
   margin-left: 5%;
 `;
-
 const StImg1 = styled.img`
   width: 30px;
   height: 30px;
@@ -396,7 +352,6 @@ const StImg1 = styled.img`
   margin-left: 80px;
   margin-top: 120px;
 `;
-
 const StInput = styled.input`
   width: 100%;
   height: 50px;
@@ -418,8 +373,7 @@ const StInput = styled.input`
     }
   }
 `;
-
-const StTextarea = styled.input`
+const StTextarea = styled.textarea`
   width: 100%;
   height: 140px;
   border: 2px solid #000000;
@@ -467,4 +421,19 @@ const StForm = styled.form`
   position: absolute;
   top: 0;
   left: 0;
+`;
+
+const StBackBtn = styled.button`
+  border: none;
+  border-radius: 50px;
+  margin-top: 15px;
+  background-color: #aeaeb2;
+  color: white;
+  text-align: center;
+  padding: 8px 0px;
+  font-size: 15px;
+  margin-left: 5%;
+  width: 90%;
+  height: 45px;
+  opacity: gray;
 `;

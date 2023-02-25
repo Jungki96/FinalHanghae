@@ -19,6 +19,7 @@ const EditUser = () => {
       },
     });
     console.log(data.myDogs);
+    console.log(data);
     setUser(data);
     setDogs(data.myDogs);
   };

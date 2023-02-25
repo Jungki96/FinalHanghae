@@ -91,6 +91,32 @@
       "id": 4
     }
   ],
+  "chatList": [
+    {
+      "id": 1,
+      "roomId": "abdsjflsjlfjds",
+      "nickname": "김태리",
+      "message": "우리 운명인가봐요"
+    },
+    {
+      "id": 2,
+      "roomId": "123456878",
+      "nickname": "박신혜",
+      "message": "우리 밥먹어요"
+    },
+    {
+      "id": 3,
+      "roomId": "87654213",
+      "nickname": "한소희",
+      "message": "우리 같이 강아지 땅콩 때러가요"
+    },
+    {
+      "id": 4,
+      "roomId": "dksdusfdjlsdkjfff",
+      "nickname": "카리나",
+      "message": "혹시 강아지 땅콩은 있나요?"
+    }
+  ],
   "comments": [
     {
       "id": 1,

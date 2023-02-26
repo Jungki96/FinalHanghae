@@ -31,6 +31,7 @@ const CardList = () => {
       },
     });
     alert("좋아요를 눌렀습니다.");
+    //누른뒤 초기화 값을 가져와야 하기 때문에
     // window.location.reload();
   };
 

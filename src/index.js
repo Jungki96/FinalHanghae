@@ -5,7 +5,7 @@ import App from "./App";
 import axios from "axios";
 import { Provider } from "react-redux";
 import store from "./redux/config/configStore";
-import GlobalStyles from "./global/GlobalStyle";
+import GlobalStyles from "../src/global/GlobalStyle";
 import reportWebVitals from "./reportWebVitals";
 
 axios.defaults.withCredentials = true;

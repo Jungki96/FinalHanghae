@@ -17,68 +17,51 @@ const initialState = {
 
 //로그인 POST요청
 
-export const __postLogin = createAsyncThunk(
-  "login",
-  async (payload, thunkAPI) => {
-    try {
-      const res = await axios.post("https://midcon.shop/users/login", payload);
-
-      sessionStorage.setItem("accessToken", res.headers.authorization);
-      // sessionStorage.setItem("refresh_token", res.headers.authorization);
-      console.log(res);
-      return thunkAPI.fulfillWithValue();
-    } catch (error) {
-      console.log(error);
-      if (400 < error.status < 500) {
-        alert(error.response.data.message);
-      }
-      return thunkAPI.rejectWithValue(error);
+export const __postLogin = createAsyncThunk("login", async (payload, thunkAPI) => {
+  try {
+    const res = await axios.post("https://midcon.shop/users/login", payload);
+    sessionStorage.setItem("accessToken", res.headers.authorization);
+    // sessionStorage.setItem("refresh_token", res.headers.authorization);
+    console.log(res);
+    return thunkAPI.fulfillWithValue();
+  } catch (error) {
+    console.log(error);
+    if (400 < error.status < 500) {
+      alert(error.response.data.message);
     }
+    return thunkAPI.rejectWithValue(error);
   }
-);
+});
 
 //회원가입 post 요청
 
-export const __postUser = createAsyncThunk(
-  "signup",
-  async (payload, thunkAPI) => {
-    try {
-      console.log(payload);
-      const { data } = await axios.post(
-        "https://midcon.shop/users/signup",
-        payload
-      );
-      return thunkAPI.fulfillWithValue(data);
-    } catch (error) {
-      if (400 < error.status < 500) {
-        alert(error.response.data.message);
-      }
-      return thunkAPI.rejectWithValue(error);
+export const __postUser = createAsyncThunk("signup", async (payload, thunkAPI) => {
+  try {
+    console.log(payload);
+    const { data } = await axios.post("https://midcon.shop/users/signup", payload);
+    return thunkAPI.fulfillWithValue(data);
+  } catch (error) {
+    if (400 < error.status < 500) {
+      alert(error.response.data.message);
     }
+    return thunkAPI.rejectWithValue(error);
   }
-);
+});
 //이메일 중복체크
-export const __checkId = createAsyncThunk(
-  "account/checkId",
-  async (payload, thunkAPI) => {
-    try {
-      const { data } = await axios.post(
-        "https://midcon.shop/users/dupcheck",
-        payload,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(data);
-      return thunkAPI.fulfillWithValue(data);
-    } catch (error) {
-      if (400 < error.status < 500) {
-        alert(error.response.data.message);
-      }
-      return thunkAPI.rejectWithValue(error);
+export const __checkId = createAsyncThunk("account/checkId", async (payload, thunkAPI) => {
+  try {
+    const { data } = await axios.post("https://midcon.shop/users/dupcheck", payload, {
+      withCredentials: true,
+    });
+    console.log(data);
+    return thunkAPI.fulfillWithValue(data);
+  } catch (error) {
+    if (400 < error.status < 500) {
+      alert(error.response.data.message);
     }
+    return thunkAPI.rejectWithValue(error);
   }
-);
+});
 
 const userList = createSlice({
   name: "userList",

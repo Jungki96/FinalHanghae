@@ -10,20 +10,18 @@ const MyDog = () => {
   const { id } = useParams();
   const Authorization = sessionStorage.getItem("accessToken");
   const navigate = useNavigate();
-
-  //임시 작동 안됨
   const [dog, setDog] = useState({});
+  const [images, setImages] = useState([]);
+
   const fetchList = async () => {
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_DOG}/dogs/${id}`,
-      {
-        headers: {
-          Authorization,
-        },
-      }
-    );
+    const { data } = await axios.get(`${process.env.REACT_APP_DOG}/dogs/${id}`, {
+      headers: {
+        Authorization,
+      },
+    });
     setDog(data);
-    console.log(dog);
+    setImages(data.images);
+    console.log(images);
   };
 
   const onDeleteDog = () => {
@@ -57,12 +55,18 @@ const MyDog = () => {
             <StBox>사진</StBox>
             <br />
             <div>
-              {/* {dog.images.map((dog) => (
-                <StPeople style={{ backgroundImage: `url(${dog.imageUrls})` }} />
-              ))} */}
+              {images.map((image) => (
+                <div key={image.id}>
+                  <StPeople style={{ backgroundImage: `url(${image.imageUrl})` }} />
+                </div>
+              ))}
             </div>
-            <button onClick={() => setEdit(true)}>변경</button>
-            <button onClick={() => onDeleteDog()}>삭제</button>
+            <br />
+            <StBtnGroup>
+              {/* 아직 페이지 수정 안함 */}
+              {/* <button onClick={() => setEdit(true)}>변경</button> */}
+              <button onClick={() => onDeleteDog()}>삭제</button>
+            </StBtnGroup>
           </StBefore>
         ) : (
           <div>
@@ -124,4 +128,10 @@ const StName = styled.h3`
 
 const Space = styled.div`
   height: 4vh;
+`;
+
+const StBtnGroup = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

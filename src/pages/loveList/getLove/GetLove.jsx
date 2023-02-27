@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MainHeader from "../../../shared/MainHeader";
+import Footer from "../../../shared/Footer";
 import GetDogList from "./components/GetDogList";
 
 const GiveLove = () => {

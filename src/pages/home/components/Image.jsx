@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import CardlistPagination from "./CardlistPagination";
 
-const Image = ({ images }) => {
-  const [dogs, setDogs] = useState([]);
+const Image = ({ images, data }) => {
   const [limit, setLimit] = useState(1);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
-  console.log(images);
   return (
     <Container>
-      {images.slice(offset, offset + limit).map(({ imageUrl, dogId }) => (
-        <OneDog key={dogId}>
+      {images.slice(offset, offset + limit).map(({ imageUrl, id }) => (
+        <OneDog key={id}>
           <StDog style={{ backgroundImage: `url(${imageUrl})` }}></StDog>
         </OneDog>
       ))}
+
       <Space>
         <CardlistPagination total={images.length} limit={limit} page={page} setPage={setPage} />
       </Space>
+      <StName>
+        <StDistance> 약 {data.distance} KM </StDistance>
+        <br />
+        {data.dogSex === "female" ? (
+          <StNameSex> {data.dogName} (여)</StNameSex>
+        ) : (
+          <StNameSex>{data.dogName} (남)</StNameSex>
+        )}
+        <br />
+        <StDecs>설명 : {data.dogDetails}</StDecs>
+      </StName>
     </Container>
   );
 };
@@ -55,4 +64,42 @@ const Space = styled.div`
   margin-top: -30vh;
   display: flex;
   z-index: 1;
+`;
+
+const StName = styled.h3`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* align-items: center; */
+  background-color: black;
+  margin-top: 8vh;
+  margin-right: 13vh;
+  width: 20vh;
+  height: 10vh;
+  color: beige;
+  z-index: 2;
+`;
+
+const StDistance = styled.div`
+  font-size: small;
+  display: flex;
+  justify-content: center;
+  background-color: green;
+  border-radius: 10px 10px 10px 10px;
+  width: 20vw;
+`;
+const StNameSex = styled.div`
+  display: flex;
+  background-color: red;
+  border-radius: 10px 10px 10px 10px;
+  font-size: large;
+  width: 50vw;
+`;
+const StDecs = styled.div`
+  font-size: small;
+  display: flex;
+  background-color: blue;
+  border-radius: 10px 10px 10px 10px;
+  max-width: 50vw;
+  max-height: 30vh;
 `;

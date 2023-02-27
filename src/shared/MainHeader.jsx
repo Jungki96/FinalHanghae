@@ -14,8 +14,8 @@ function Header({ children }) {
 
   return (
     <StHeader>
-      <IconButton>
-        <ArrowBackIcon className="header_logo" fontSize="large" onClick={handleHistory} />
+      <IconButton onClick={handleHistory}>
+        <ArrowBackIcon className="header_logo" fontSize="large" />
       </IconButton>
       {children}
       {/* <IconButton>

@@ -15,8 +15,17 @@ export const __getChatList = createAsyncThunk(
   "getChatList",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get("http://localhost:3001/chatList");
-      /* const { data } = await axios.get("https://midcon.shop/chat/rooms"); */
+      const token = sessionStorage.getItem("accessToken"); // 세션 스토리지에서 토큰 가져오기
+      const { data } = await axios.get(
+        // `${process.env.REACT_APP_DOGS}/chat/rooms`,
+        `http://localhost:3001/chatList`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG5hdmVyLmNvbSIsImV4cCI6MTY3NzU5NTQ3MiwiaWF0IjoxNjc3NTkxODcyfQ.aXVV33SoBBD51lXtdjGa-pivW30sCnTs7j0xsKRm67s", // 헤더에 토큰 추가
+          },
+        }
+      );
       console.log(123, data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {

@@ -5,7 +5,6 @@ function DogSignUpTop() {
   return (
     <StDiv>
       <StP1>간편하게 가입하고</StP1>
-      <br />
       <StP2>투개더를 이용해보세요.</StP2>
     </StDiv>
   );
@@ -14,8 +13,12 @@ function DogSignUpTop() {
 export default DogSignUpTop;
 
 const StDiv = styled.div`
-  margin-top: 12vh;
-  margin-bottom: 10%;
+  margin-top: 92px;
+  width: 250px;
+  height: 58px;
+  font-size: 20px;
+  line-height: 29px;
+  text-align: center;
 `;
 const StP1 = styled.div`
   font-size: 20px;

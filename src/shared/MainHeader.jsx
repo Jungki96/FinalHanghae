@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import IconButton from "@mui/material/IconButton";
+import ArrowIcon from "../assets/img/ArrowIcon.png";
+
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate } from "react-router";
 
@@ -14,14 +14,8 @@ function Header({ children }) {
 
   return (
     <StHeader>
-      <IconButton onClick={handleHistory}>
-        <ArrowBackIcon className="header_logo" fontSize="large" />
-      </IconButton>
+      <StImg src={ArrowIcon} onClick={handleHistory} />
       {children}
-      {/* <IconButton>
-        <FavoriteIcon className="header_logo" fontSize="large" />
-      </IconButton> */}
-      <Space />
     </StHeader>
   );
 }
@@ -29,23 +23,16 @@ function Header({ children }) {
 export default Header;
 
 const StHeader = styled.div`
-  /* display to row */
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f9f9f9;
-  .PersonIcon {
-    /* size: 10%; */
-  }
-  .logo {
-    height: 70px;
-    object-fit: contain;
-  }
-  .header_logo {
-    padding: 20px;
-  }
+  width: 371px;
+  height: 60px;
+  margin-left: 20px;
+  margin-top: 24px;
 `;
-
-const Space = styled.div`
-  margin-left: 11vh;
+const StImg = styled.img`
+  width: 24px;
+  height: 24px;
 `;

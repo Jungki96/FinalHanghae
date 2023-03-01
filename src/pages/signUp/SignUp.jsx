@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { __postUser, __checkId } from "../../redux/modules/userSlice";
+import StartLayout from "../../components/StartLayout";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ function SignUp() {
     if (name === "password")
       !regPassword.test(value)
         ? setPassInput(
-            `8~15자의 영문 대소문자와 숫자 그리고
+            `8~15자의 영문과 숫자 그리고 
              특수문자(!@#$%^&*)를 입력해주세요.`
           )
         : setPassInput("");
@@ -97,176 +98,164 @@ function SignUp() {
   };
 
   return (
-    <Container>
-      <Wrapper>
-        <SignUpBox onSubmit={onSubmitUserHandler}>
-          <TopBox>
-            <div>간편하게 가입하고</div>
-            <br />
-            <StP1>투개더를 이용해보세요</StP1>
-          </TopBox>
-          <div>
-            <StP2>이름</StP2>
-            <StInput
-              type="text"
-              name="username"
-              value={username}
-              placeholder="이름을 입력하세요(강아지 이름X)"
-              onChange={onChangeUserHandler}
-            ></StInput>
-          </div>
-          <StP3 id="help-password2" className="help">
-            {usernameInput}
-          </StP3>
-
+    <StartLayout>
+      <form onSubmit={onSubmitUserHandler}>
+        <TopBox>
+          <div>간편하게 가입하고</div>
+          <br />
+          <StP1>투개더를 이용해보세요</StP1>
+        </TopBox>
+        <StDiv>
+          <StP2>이름</StP2>
+          <StInput
+            type="text"
+            name="username"
+            value={username}
+            placeholder="이름을 입력하세요(강아지 이름X)"
+            onChange={onChangeUserHandler}
+          ></StInput>
+        </StDiv>
+        <StP3 id="help-password2" className="help">
+          {usernameInput}
+        </StP3>
+        <StDiv>
           <StP2>이메일</StP2>
-
-          <div>
-            <StInput
-              type="email"
-              name="email"
-              value={email}
-              placeholder="이메일을 입력해주세요"
-              onChange={onChangeUserHandler}
-            />
-          </div>
+          <StInput
+            type="email"
+            name="email"
+            value={email}
+            placeholder="이메일을 입력해주세요"
+            onChange={onChangeUserHandler}
+          />
           <StP3 id="help-user" className="help">
             {emailInput}
           </StP3>
-          <StButton onClick={onSubmitUserCheckHandler}>
-            이메일 중복확인
-          </StButton>
-          <br />
-          <br />
+        </StDiv>
+
+        <StDogButton onClick={onSubmitUserCheckHandler}>
+          이메일 중복확인
+        </StDogButton>
+
+        <StDiv>
           <StP2>비밀번호</StP2>
-          <div>
-            <StInput
-              type="password"
-              name="password"
-              value={password}
-              placeholder="비밀번호를 입력하세요"
-              onChange={onChangeUserHandler}
-            ></StInput>
-          </div>
+          <StInput
+            type="password"
+            name="password"
+            value={password}
+            placeholder="비밀번호를 입력하세요"
+            onChange={onChangeUserHandler}
+          ></StInput>
           <StP3 id="help-password1" className="help">
             {passInput}
           </StP3>
-          <div>
-            <StP2>비밀번호 확인</StP2>
-            <StInput
-              type="password"
-              name="check_password"
-              value={check_password}
-              placeholder="비밀번호 확인해주세요"
-              onChange={onChangeUserHandler}
-            ></StInput>
-          </div>
+        </StDiv>
+
+        <StDiv>
+          <StP2>비밀번호 확인</StP2>
+          <StInput
+            type="password"
+            name="check_password"
+            value={check_password}
+            placeholder="비밀번호 확인해주세요"
+            onChange={onChangeUserHandler}
+          ></StInput>
           <StP3 id="help-password2" className="help">
             {checkpassInput}
           </StP3>
-          <br />
-          <br />
-          <StDogButton>강아지 설정하기</StDogButton>
-        </SignUpBox>
-      </Wrapper>
-    </Container>
+        </StDiv>
+
+        <StLdButton>강아지 설정하기</StLdButton>
+      </form>
+    </StartLayout>
   );
 }
 
 export default SignUp;
 
-const Container = styled.div`
-  display: flex;
-  margin-top: 15%;
-  height: 90vh;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  border-radius: 100px;
-`;
 const StP1 = styled.div`
   font-size: 20px;
 `;
 const StP2 = styled.div`
-  padding-left: 5px;
+  padding-left: 1px;
   font-weight: 600;
 `;
 const StP3 = styled.div`
-  margin-top: 2%;
-  max-width: 90%;
-  margin-left: 5%;
   font-size: 12px;
-  margin-bottom: 5%;
+  margin-top: 10px;
+  width: 250px;
+`;
+const StDiv = styled.div`
+  margin-left: 12px;
+  margin-bottom: 22px;
 `;
 
 const TopBox = styled.div`
   display: flex;
+  flex-direction: column;
+  margin-top: 92px;
+  margin-bottom: 45px;
+  width: 220px;
+  height: 58px;
+  margin-left: 32px;
+  text-align: center;
+`;
+
+const StDogButton = styled.button`
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  padding: 35px 40px 25px 40px;
-  margin-bottom: 10px;
-
-  h1 {
-    color: #333333;
-  }
-  button {
-    border: none;
-    width: 130px;
-    height: 30px;
-    border-radius: 10px;
-    background-color: #f56753;
-    color: white;
-    font-weight: 800;
-    font-size: 15px;
-    cursor: pointer;
-  }
+  color: #ffffff;
+  width: 257px;
+  height: 46px;
+  margin-left: 12px;
+  top: 700px;
+  font-size: 16px;
+  /* Main/main */
+  font-weight: 600;
+  background: #2f58ac;
+  border-radius: 60px;
+  margin-bottom: 22px;
 `;
-const Wrapper = styled.div`
-  max-width: 350px;
-  width: 100%;
-`;
-const StButton = styled.button`
-  background-color: #2f58ac;
-  color: white;
-  text-align: center;
-  height: 34px;
-  width: 300px;
-  margin-left: 8%;
-  font-size: 15px;
-  border-radius: 18px;
-  margin-bottom: 1%;
-`;
-const StDogButton = styled.button`
-  position: relative;
-  background-color: #2f58ac;
-  color: white;
-  text-align: center;
-  height: 40px;
-  width: 300px;
-  margin-left: 8%;
-  font-size: 15px;
-  border-radius: 20px;
-
-  margin-top: 25%;
+const StLdButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  width: 257px;
+  height: 46px;
+  margin-left: 12px;
+  top: 700px;
+  font-size: 16px;
+  /* Main/main */
+  font-weight: 600;
+  margin-top: 130px;
+  background: #2f58ac;
+  border-radius: 60px;
+  margin-bottom: 22px;
 `;
 const StInput = styled.input`
-  width: 100%;
-  border-radius: 3px;
-  padding: 7px;
-  margin-bottom: 3%;
-  background-color: #fafafa;
-  border: 2px solid;
-  margin-top: 10px;
+  margin-top: 6px;
+  width: 259px;
+  height: 26px;
+
+  background-color: white;
   box-sizing: border-box;
   border-top-style: none;
   border-left-style: none;
   border-right-style: none;
+  border-bottom-style: 1px;
+
   &::placeholder {
+    width: 300px;
+    height: 30px;
+    font-weight: 500;
     font-size: 12px;
+    line-height: 17px;
+
     &:focus {
       border-color: rgb(38, 38, 38);
     }
   }
 `;
-const SignUpBox = styled.form``;

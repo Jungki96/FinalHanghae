@@ -1,25 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-
-import Header from "../shared/MainHeader";
-import Footer from "../shared/Footer";
 import background from "../assets/img/background.png";
 
-function Layout({ children }) {
+const StartLayout = (props) => {
   return (
     <Container>
-      <ContainerDiv>
-        <Header />
-        <Content>{children}</Content>
-        <FooterWrapper>
-          <Footer />
-        </FooterWrapper>
-      </ContainerDiv>
+      <ContainerDiv>{props.children}</ContainerDiv>
     </Container>
   );
-}
+};
 
-export default Layout;
+export default StartLayout;
 
 const Container = styled.div`
   display: flex;
@@ -36,26 +27,12 @@ const Container = styled.div`
 
 const ContainerDiv = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   background-color: white;
+  color: var(--color-main);
   width: 375px;
   height: 812px;
   border: 2px solid black;
   border-radius: 30px;
-  position: relative;
-`;
-
-const Content = styled.div`
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-`;
-
-const FooterWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
 `;

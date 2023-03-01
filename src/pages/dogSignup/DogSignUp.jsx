@@ -14,6 +14,7 @@ import DogSignUpName from "./dogSignUpComponents/DogSignUpName";
 import DogSignUpSex from "./dogSignUpComponents/DogSignUpSex";
 import DogSignUpImage from "./dogSignUpComponents/DogSignUpImage";
 import DogSignUpDetail from "./dogSignUpComponents/DogSignUpDetail";
+import StartLayout from "../../components/StartLayout";
 
 // 회원가입 form 컴포넌트
 function SignUpForm() {
@@ -148,57 +149,71 @@ function SignUpForm() {
 
   return (
     <StForm>
-      <DogSignUpTop></DogSignUpTop>
-
       {signNumber === 0 && (
-        <div>
-          <StNum> ({signNumber + 1}/5)</StNum>
-          <DogSignUpName></DogSignUpName>
-          <StInput
-            autoComplete="off"
-            id="dogName"
-            required
-            placeholder="5글자 이내로 입력해주세요."
-            onChange={(e) => {
-              setSignData({ ...signData, dogName: e.target.value });
-              setDogSexState(true);
-            }}
-          />
-          <StBtn className="on" onClick={next}>
-            다음
-          </StBtn>
-          <StBackBtn onClick={() => setSignup(!signup)}>뒤로</StBackBtn>
-          {signup && (
-            <DogSignUpModal closeModal={() => setSignup(!signup)}>
-              <DogModalDetail />
-            </DogSignUpModal>
-          )}
-        </div>
+        <StartLayout>
+          <DogSignUpTop />
+          <div>
+            <StNum> ({signNumber + 1}/5)</StNum>
+            <DogSignUpName></DogSignUpName>
+            <StInput
+              autoComplete="off"
+              id="dogName"
+              required
+              placeholder="5글자 이내로 입력해주세요."
+              onChange={(e) => {
+                setSignData({ ...signData, dogName: e.target.value });
+                setDogSexState(true);
+              }}
+            />
+            <StBtnDiv>
+              <StBackBtn onClick={() => setSignup(!signup)}>뒤로</StBackBtn>
+              <StBtn className="on" onClick={next}>
+                다음
+              </StBtn>
+            </StBtnDiv>
+
+            {signup && (
+              <DogSignUpModal closeModal={() => setSignup(!signup)}>
+                <DogModalDetail />
+              </DogSignUpModal>
+            )}
+          </div>
+        </StartLayout>
       )}
 
       {signNumber === 1 && (
-        <div>
-          <StNum> ({signNumber + 1}/5)</StNum>
-          <DogSignUpSex></DogSignUpSex>
+        <StartLayout>
+          <DogSignUpTop />
           <div>
-            <StImg src={male} />
-            <StImg src={female} />
-            <StDiv4>
-              <StDiv5>
-                <input type="radio" name="dogSexRadio" value="Male" defaultChecked />
-                <label>남</label>
-              </StDiv5>
-              <StDiv6>
-                <input type="radio" name="dogSexRadio" value="Female" />
-                <label>여</label>
-              </StDiv6>
-            </StDiv4>
+            <StNum> ({signNumber + 1}/5)</StNum>
+            <DogSignUpSex></DogSignUpSex>
+            <div>
+              <StImg src={male} />
+              <StImg src={female} />
+              <StDiv4>
+                <StDiv5>
+                  <input
+                    type="radio"
+                    name="dogSexRadio"
+                    value="Male"
+                    defaultChecked
+                  />
+                  <label>남</label>
+                </StDiv5>
+                <StDiv6>
+                  <input type="radio" name="dogSexRadio" value="Female" />
+                  <label>여</label>
+                </StDiv6>
+              </StDiv4>
+            </div>
+            <StBtn className="on" onClick={next} disabled={!dogSexState}>
+              다음
+            </StBtn>
+            <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
+              뒤로
+            </StBackBtn>
           </div>
-          <StBtn className="on" onClick={next} disabled={!dogSexState}>
-            다음
-          </StBtn>{" "}
-          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
-        </div>
+        </StartLayout>
       )}
 
       {signNumber === 2 && (
@@ -245,7 +260,9 @@ function SignUpForm() {
             <StBtn onClick={next} disabled={!imageSrcs}>
               다음
             </StBtn>{" "}
-            <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
+            <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
+              뒤로
+            </StBackBtn>
           </Container>
         </div>
       )}
@@ -263,11 +280,17 @@ function SignUpForm() {
               setSignData({ ...signData, dogDetails: e.target.value });
             }}
           />
-          <StBtn className="on" onClick={combinedHandler} disabled={!dogDetailsState}>
+          <StBtn
+            className="on"
+            onClick={combinedHandler}
+            disabled={!dogDetailsState}
+          >
             다음
           </StBtn>
 
-          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
+          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
+            뒤로
+          </StBackBtn>
         </div>
       )}
     </StForm>
@@ -275,6 +298,7 @@ function SignUpForm() {
 }
 
 export default SignUpForm;
+
 const StDiv4 = styled.div`
   display: flex;
   flex-direction: row;
@@ -333,13 +357,12 @@ const InputContainer = styled.div`
   }
 `;
 const StNum = styled.div`
-  margin-top: -13%;
   font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 23%;
+  margin-bottom: 36px;
 `;
 const StImg = styled.img`
   width: 108px;
@@ -354,14 +377,11 @@ const StImg1 = styled.img`
   margin-top: 120px;
 `;
 const StInput = styled.input`
-  width: 100%;
-  height: 50px;
-  border-radius: 3px;
-  padding: 7px;
-  margin-bottom: 40%;
+  margin-left: 15px;
+  width: 257px;
+  height: 52px;
   background-color: white;
   border: 2px solid;
-  margin-top: 10%;
   box-sizing: border-box;
   border-top-style: none;
   border-left-style: none;
@@ -393,19 +413,36 @@ const StTextarea = styled.textarea`
   }
 `;
 const StBtn = styled.button`
-  border: none;
-  border-radius: 50px;
-  margin-top: 15px;
-  background-color: #2f58ac;
-  color: white;
-  text-align: center;
-  padding: 8px 0px;
-  font-size: 15px;
-  margin-left: 5%;
-  width: 90%;
-  height: 45px;
-  opacity: gray;
+  width: 121px;
+  height: 50px;
+  margin-left: 20px;
+
+  font-size: 16px;
+  line-height: 23px;
+  font-weight: 700;
+
+  color: #ffffff;
+  background: #2f58ac;
+  border-radius: 60px;
 `;
+
+const StBackBtn = styled.button`
+  width: 121px;
+  height: 50px;
+  margin-left: 16px;
+  font-size: 16px;
+  line-height: 23px;
+  font-weight: 700;
+
+  color: #ffffff;
+  background: #aeaeb2;
+  border-radius: 60px;
+`;
+const StBtnDiv = styled.div`
+  margin-top: 52px;
+  margin-right: 15px;
+`;
+
 const StForm = styled.form`
   width: 100%;
   height: 100%;
@@ -419,22 +456,6 @@ const StForm = styled.form`
   align-items: center;
   gap: 16px;
 
-  position: absolute;
   top: 0;
   left: 0;
-`;
-
-const StBackBtn = styled.button`
-  border: none;
-  border-radius: 50px;
-  margin-top: 15px;
-  background-color: #aeaeb2;
-  color: white;
-  text-align: center;
-  padding: 8px 0px;
-  font-size: 15px;
-  margin-left: 5%;
-  width: 90%;
-  height: 45px;
-  opacity: gray;
 `;

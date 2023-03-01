@@ -1,55 +1,59 @@
 import React from "react";
 import styled from "styled-components";
-import IconButton from "@material-ui/core/IconButton";
-import AndroidIcon from "@mui/icons-material/Android";
-import PetsIcon from "@mui/icons-material/Pets";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import PersonIcon from "@mui/icons-material/Person";
+import DogHome from "../assets/img/DogHome.png";
+import MessageIcon from "../assets/img/MessageIcon.png";
+import FootIcon from "../assets/img/FootIcon.png";
+import UserIcon from "../assets/img/UserIcon.png";
 import { useNavigate } from "react-router-dom";
 
 function Footer() {
   const navigate = useNavigate();
   return (
     <StButtons>
-      <IconButton
+      <StImg
+        src={DogHome}
         onClick={() => {
           navigate("/");
         }}
-      >
-        <AndroidIcon fontSize="large" />
-      </IconButton>
-      <IconButton
+      />
+
+      <StImg
+        src={MessageIcon}
         onClick={() => {
           navigate("/chattingList");
         }}
-      >
-        <ChatBubbleIcon fontSize="large" />
-      </IconButton>
-      <IconButton
+      />
+
+      <StImg
+        src={FootIcon}
         onClick={() => {
           navigate("/giveLove");
         }}
-      >
-        <PetsIcon fontSize="large" />
-      </IconButton>
-      <IconButton
+      />
+
+      <StImg
+        src={UserIcon}
         onClick={() => {
           navigate("/mypage");
         }}
-      >
-        <PersonIcon fontSize="large" />
-      </IconButton>
+      />
     </StButtons>
   );
 }
 export default Footer;
 
 const StButtons = styled.div`
-  background-color: #ffffff;
-  border-top-style: 1px;
-  position: fixed;
+  width: 375px;
+  height: 83px;
   bottom: 0;
-  width: 100%;
+  box-shadow: 0px -1px 0px 0px #000000; /* box-shadow 속성을 사용해 그림자를 만듭니다 */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
+`;
+const StImg = styled.img`
+  width: 30px;
+  height: 30px;
+  left: 38px;
+  top: 18px;
 `;

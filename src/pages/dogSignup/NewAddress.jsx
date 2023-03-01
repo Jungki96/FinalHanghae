@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import DogSignUpTop from "./dogSignUpComponents/DogSignUpTop";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/img/logo.png";
-import Congra from "../../assets/img/congra.png";
-
+import Cong from "../../assets/img/cong.png";
+import Cong2 from "../../assets/img/cong2.png";
 const NewAddress = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,7 +36,8 @@ const NewAddress = () => {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       newAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -89,11 +90,16 @@ const NewAddress = () => {
                 {<DaumPostCode onComplete={handleComplete} />}
                 {!modalState && (
                   <div>
-                    <AddressInput onClick={() => setIsOpen(true)} value={address} />
+                    <AddressInput
+                      onClick={() => setIsOpen(true)}
+                      value={address}
+                    />
                     <StBtn type="submit" onClick={next}>
                       다음
                     </StBtn>
-                    <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
+                    <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
+                      뒤로
+                    </StBackBtn>
                   </div>
                 )}
               </AddForm>
@@ -103,14 +109,11 @@ const NewAddress = () => {
             <Container>
               <Wrapper>
                 <StLogo src={Logo} />
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
                 <div>
-                  가입을 축하드려요! <br /> 이제부터 본격적으로 <br /> 투개더🐶 할까요?
+                  가입을 축하드려요! <br /> 이제부터 본격적으로 <br /> 투개더🐶
+                  할까요?
                 </div>
-                <StLogo src={Congra} />
+                <StLogo2 src={Cong} />
                 <br></br>
                 <br></br>
                 <br></br>
@@ -131,15 +134,12 @@ const BgBox = styled.div`
   width: 100%;
   height: 100%;
   background-color: #fff;
-
   padding: 0 26px;
   box-sizing: border-box;
-
   display: flex;
   flex-flow: column;
   align-items: center;
   gap: 16px;
-
   position: absolute;
   top: 0;
   left: 0;
@@ -160,14 +160,17 @@ const Wrapper = styled.div`
 `;
 
 const AddressInput = styled.input`
-  width: 100%;
-  height: 40px;
-  font-size: 16px;
-  padding: 0 10px;
-  border: 1px solid #dcdcdc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
+  border-radius: 50px;
+  margin-top: 15px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  padding: 8px 0px;
+  font-size: 10px;
+  margin-left: 5%;
+  width: 90%;
+  height: 30px;
+  opacity: gray;
 `;
 const AddForm = styled.form`
   display: flex;
@@ -209,8 +212,18 @@ const StBtn = styled.button`
 `;
 
 const StLogo = styled.img`
-  width: 162px;
-  height: 115px;
+  width: 196.65px;
+  height: 107.16px;
+  left: 106px;
+  top: 57px;
+  /* margin-top: 65px;
+  margin-left: 88.35px;
+  margin-right: 90px;
+  margin-bottom: 695.84px; */
+`;
+const StLogo2 = styled.img`
+  width: 132px;
+  height: 125px;
   left: 106px;
   top: 57px;
   margin-top: 30%;
@@ -224,26 +237,3 @@ const Container = styled.div`
   flex-direction: column;
   border-radius: 100px;
 `;
-// const TopBox = styled(WhiteBox)`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: column;
-//   padding: 35px 40px 25px 40px;
-//   margin-bottom: 10px;
-
-//   h1 {
-//     color: #333333;
-//   }
-//   button {
-//     border: none;
-//     width: 130px;
-//     height: 30px;
-//     border-radius: 10px;
-//     background-color: gray;
-//     color: white;
-//     font-weight: 800;
-//     font-size: 15px;
-//     cursor: pointer;
-//   }
-// `;

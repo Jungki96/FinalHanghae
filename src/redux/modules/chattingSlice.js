@@ -26,7 +26,9 @@ export const __postChatopenThunk = createAsyncThunk(
   "CHAT_OPEN",
   async (payload, thunkAPI) => {
     try {
-      const Request = await axios.post("https://midcon.shop/chat/room");
+      const Request = await axios.post(
+        `${process.env.REACT_APP_DOGS}/chat/rooms`
+      );
       console.log(1234, Request.data);
       return thunkAPI.fulfillWithValue(Request.data);
     } catch (e) {

@@ -18,8 +18,14 @@ const initialState = {
 //로그인 POST요청
 
 export const __postLogin = createAsyncThunk("login", async (payload, thunkAPI) => {
+  console.log(payload);
   try {
-    const res = await axios.post("https://midcon.shop/users/login", payload);
+    const res = await axios.post(
+      `${process.env.REACT_APP_DOG}/users/login`,
+      // "http://54.85.166.118/users/login",
+      payload
+    );
+
     sessionStorage.setItem("accessToken", res.headers.authorization);
     // sessionStorage.setItem("refresh_token", res.headers.authorization);
     console.log(res);

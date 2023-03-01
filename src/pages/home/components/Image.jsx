@@ -71,7 +71,6 @@ const StName = styled.h3`
   justify-content: center;
   flex-direction: column;
   /* align-items: center; */
-  background-color: black;
   margin-top: 8vh;
   margin-right: 13vh;
   width: 20vh;

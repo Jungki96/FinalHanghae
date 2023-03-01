@@ -11,7 +11,7 @@ const Home = () => {
         <StLogo src={Logo} />
         <CardList />
       </Container>
-      <Footer />
+      <Footer styled={{ "z-index": 1 }} />
     </div>
   );
 };

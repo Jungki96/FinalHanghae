@@ -7,7 +7,6 @@ function DogSignUpName() {
     <div>
       <StDiv2>
         <StP3> 반가워요!</StP3>
-        <br />
         <StP2>강아지 이름은 어떻게 되나요?</StP2>
       </StDiv2>
     </div>
@@ -17,13 +16,15 @@ function DogSignUpName() {
 export default DogSignUpName;
 
 const StDiv2 = styled.div`
-  margin-bottom: 10%;
+  margin-bottom: 52px;
+  margin-left: 15px;
 `;
 const StP3 = styled.div`
-  font-size: 20px;
+  font-size: 18px;
+  margin-bottom: 8px;
 `;
 const StP2 = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   display: flex;
   justify-content: center;

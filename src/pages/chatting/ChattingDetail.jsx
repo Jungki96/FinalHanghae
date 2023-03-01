@@ -95,7 +95,6 @@ const ChattingDetail = () => {
       `/pub/chat/message`,
       headers,
       JSON.stringify({
-        type: "TALK",
         roomId: chatcollect.roomId,
         sender: Myname, // 보내는 사용자의 이름 설정
         message: message,

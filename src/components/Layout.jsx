@@ -40,7 +40,7 @@ const ContainerDiv = styled.div`
   justify-content: space-between;
   background-color: white;
   width: 375px;
-  height: 750px;
+  height: 850px;
   border: 2px solid black;
   border-radius: 30px;
   position: relative;

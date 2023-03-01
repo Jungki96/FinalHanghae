@@ -111,7 +111,8 @@ const StName = styled.h3`
   position: absolute;
   font-size: medium;
   bottom: 30px;
-  color: beige;
+  background-color: black;
+  color: #ffffff;
 `;
 
 const OneDog = styled.div`

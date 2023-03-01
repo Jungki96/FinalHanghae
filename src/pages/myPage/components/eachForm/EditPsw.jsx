@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
-import MainHeader from "../../../../shared/MainHeader";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
+import Layout from "../../../../components/Layout";
 
 const EditNick = () => {
   const navigate = useNavigate();
@@ -53,13 +53,12 @@ const EditNick = () => {
     // navigate(-1);
   };
 
-  const onDeleteUserHandler = () => {};
+  const onDeleteUserHandler = () => {
+    alert("진짜 삭제할거예요?");
+  };
 
   return (
-    <>
-      <MainHeader>
-        <div style={{ fontSize: "20px", fontWeight: "bold" }}>비밀번호 변경</div>
-      </MainHeader>
+    <Layout title="설정">
       <Container>
         <StForm
           onSubmit={(e) => {
@@ -103,19 +102,18 @@ const EditNick = () => {
           <Space />
           <StButton>변경하기</StButton>
         </StForm>
-        <Space />
-        <Space />
         <UnderLine />
-        <Space />
         <StDeleteUser onClick={() => onDeleteUserHandler()}>
-          <div style={{ fontSize: "20px", fontWeight: "bold" }}>회원탈퇴</div>
+          <div style={{ fontSize: "20px", fontWeight: "bold" }} onClick={onDeleteUserHandler}>
+            회원탈퇴
+          </div>
           <br />
           <div style={{ fontSize: "15px", color: "#c6c6c6" }}>
             개인정보 및 설정이 모두 삭제됩니다.
           </div>
         </StDeleteUser>
       </Container>
-    </>
+    </Layout>
   );
 };
 
@@ -129,6 +127,7 @@ const Container = styled.div`
   justify-content: center;
   // 요소들을 컨테이너의 가운데로 정렬
   align-items: center;
+  margin-top: 40px;
 `;
 const StForm = styled.form`
   display: flex;
@@ -143,33 +142,33 @@ const StInput = styled.input`
   border-left-style: none;
   border-right-style: none;
   border-bottom-style: 1px;
-  width: 300px;
+  width: 250px;
 `;
 
 const StButton = styled.button`
   border-radius: 20px 20px 20px 20px;
   border-style: none;
-  width: 40vh;
-  height: 4vh;
+  width: 300px;
+  height: 40px;
   background-color: #2f58ac;
   color: white;
+  margin-bottom: 30px;
 `;
 
 const UnderLine = styled.div`
   display: flex;
-  width: 45vh;
-  height: 0.5vh;
+  width: 330px;
+  height: 5px;
   background-color: #c6c6c6;
+  margin-bottom: 50px;
 `;
 
 const StDeleteUser = styled.div`
   display: flex;
   // 요소들 배열 방식의 방향
   flex-direction: column;
-  // 요소들의 배열 위치
-  justify-content: center;
-  margin-left: -10vh;
+  margin-left: -50px;
 `;
 const Space = styled.div`
-  height: 8vh;
+  height: 80px;
 `;

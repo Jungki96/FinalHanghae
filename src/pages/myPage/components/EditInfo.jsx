@@ -45,9 +45,8 @@ const StForm = styled.form`
 `;
 
 const StOneInfoWhite = styled.div`
-  width: 100vh;
-  max-width: 85vw;
-  height: 5vh;
+  width: 300px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,9 +54,8 @@ const StOneInfoWhite = styled.div`
 `;
 
 const StOneInfoBlack = styled.div`
-  width: 100vh;
-  max-width: 85vw;
-  height: 5vh;
+  width: 300px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;

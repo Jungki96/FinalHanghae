@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/img/logo.png";
 import Cong from "../../assets/img/cong.png";
 import Cong2 from "../../assets/img/cong2.png";
+import StartLayout from "../../components/StartLayout";
+import Layout from "../../components/Layout";
+
 const NewAddress = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,8 +39,7 @@ const NewAddress = () => {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       newAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -73,113 +75,93 @@ const NewAddress = () => {
   };
 
   return (
-    <div>
-      <BgBox>
-        <AddForm>
-          {signNumber === 0 && (
-            <Wrapper>
-              <AddForm>
-                <DogSignUpTop></DogSignUpTop>
-                <br></br>
-                <br></br>
-                <StNum>(마지막이에요!)</StNum>
-                <span> 회원님의 주소를 설정해 주세요 </span>
-                <span> 도로명 주소를 입력해 주세요!</span>
-                <span> 예)강남대로(O),강남동(X)</span>
-                <br></br>
-                {<DaumPostCode onComplete={handleComplete} />}
-                {!modalState && (
-                  <div>
-                    <AddressInput
-                      onClick={() => setIsOpen(true)}
-                      value={address}
-                    />
+    <Layout title="설정">
+      <StContainer>
+        {signNumber === 0 && (
+          <Wrapper>
+            <AddForm>
+              <DogSignUpTop />
+              <StNum>(마지막이에요!)</StNum>
+              {/* <span> 회원님의 주소를 설정해 주세요 </span>
+              <span> 도로명 주소를 입력해 주세요!</span>
+              <span> 예)강남대로(O),강남동(X)</span> */}
+              {<DaumPostCode onComplete={handleComplete} />}
+              {!modalState && (
+                <div>
+                  <AddressInput onClick={() => setIsOpen(true)} value={address} />
+                  <StBtnDiv>
+                    <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>뒤로</StBackBtn>
                     <StBtn type="submit" onClick={next}>
                       다음
                     </StBtn>
-                    <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
-                      뒤로
-                    </StBackBtn>
-                  </div>
-                )}
-              </AddForm>
-            </Wrapper>
-          )}
-          {signNumber === 1 && (
-            <Container>
-              <Wrapper>
-                <StLogo src={Logo} />
-                <div>
-                  가입을 축하드려요! <br /> 이제부터 본격적으로 <br /> 투개더🐶
-                  할까요?
+                  </StBtnDiv>
                 </div>
-                <StLogo2 src={Cong} />
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <StBtn onClick={submitLogin}>{`얼른 가자멍!`}</StBtn>
-              </Wrapper>
-            </Container>
-          )}
-        </AddForm>
-      </BgBox>
-    </div>
+              )}
+            </AddForm>
+          </Wrapper>
+        )}
+        {signNumber === 1 && (
+          <Container>
+            <StLogo src={Logo} />
+            {/* <div>가입을 축하드려요!</div> */}
+            <StLogo2 src={Cong} />
+            <StBtn2 onClick={submitLogin}>{`얼른 가자멍!`}</StBtn2>
+          </Container>
+        )}
+      </StContainer>
+    </Layout>
   );
 };
 
 export default NewAddress;
 
-const BgBox = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  padding: 0 26px;
-  box-sizing: border-box;
+const StBtnDiv = styled.div`
   display: flex;
-  flex-flow: column;
+  // 요소들의 배열 위치
+  justify-content: center;
+  // 요소들을 컨테이너의 가운데로 정렬
   align-items: center;
-  gap: 16px;
-  position: absolute;
-  top: 0;
-  left: 0;
 `;
+
 const StNum = styled.div`
-  margin-top: -13%;
   font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 23%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`;
+
+const StContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  margin-top: -80px;
 `;
 
 const Wrapper = styled.div`
-  max-width: 350px;
-  width: 100%;
+  width: 300px;
 `;
 
 const AddressInput = styled.input`
   border-radius: 50px;
-  margin-top: 15px;
+  margin-top: 30px;
   background-color: white;
   color: black;
   text-align: center;
   padding: 8px 0px;
   font-size: 10px;
-  margin-left: 5%;
-  width: 90%;
+  width: 200px;
   height: 30px;
   opacity: gray;
+  padding: 5px 15px 5px 15px;
 `;
 const AddForm = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 35px 40px 25px 40px;
-  margin-bottom: 10px;
-  margin-top: -5vh;
 `;
 
 const StBackBtn = styled.button`
@@ -203,34 +185,36 @@ const StBtn = styled.button`
   background-color: #2f58ac;
   color: white;
   text-align: center;
-  padding: 8px 0px;
   font-size: 15px;
-  margin-left: 5%;
-  width: 90%;
+  width: 200px;
+  height: 45px;
+  opacity: gray;
+`;
+const StBtn2 = styled.button`
+  border: none;
+  border-radius: 50px;
+  margin-top: 50px;
+  background-color: #2f58ac;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  width: 200px;
   height: 45px;
   opacity: gray;
 `;
 
 const StLogo = styled.img`
-  width: 196.65px;
-  height: 107.16px;
-  left: 106px;
-  top: 57px;
-  /* margin-top: 65px;
-  margin-left: 88.35px;
-  margin-right: 90px;
-  margin-bottom: 695.84px; */
+  width: 170px;
+  height: 107px;
+  margin-bottom: 30px;
 `;
 const StLogo2 = styled.img`
   width: 132px;
   height: 125px;
-  left: 106px;
-  top: 57px;
-  margin-top: 30%;
-  margin-left: 25%;
+  margin-bottom: 30px;
 `;
 const Container = styled.div`
-  height: 90vh;
+  height: 700px;
   display: flex;
   justify-content: center;
   align-items: center;

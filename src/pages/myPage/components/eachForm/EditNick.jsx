@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import MainHeader from "../../../../shared/MainHeader";
+import Layout from "../../../../components/Layout";
 
 const EditNick = () => {
   const Authorization = sessionStorage.getItem("accessToken");
@@ -29,10 +29,7 @@ const EditNick = () => {
     setData({ ...data, [name]: value });
   };
   return (
-    <>
-      <MainHeader>
-        <div style={{ fontSize: "20px", fontWeight: "bold" }}>닉네임 변경</div>
-      </MainHeader>
+    <Layout title="설정">
       <Container>
         <StForm
           onSubmit={(e) => {
@@ -53,7 +50,7 @@ const EditNick = () => {
           <StButton>변경하기</StButton>
         </StForm>
       </Container>
-    </>
+    </Layout>
   );
 };
 
@@ -87,12 +84,12 @@ const StInput = styled.input`
 const StButton = styled.button`
   border-radius: 20px 20px 20px 20px;
   border-style: none;
-  width: 40vh;
-  height: 4vh;
+  width: 200px;
+  height: 40px;
   background-color: #2f58ac;
   color: white;
 `;
 
 const Space = styled.div`
-  height: 8vh;
+  height: 70px;
 `;

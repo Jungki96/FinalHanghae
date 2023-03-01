@@ -2,16 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MainHeader from "../../../shared/MainHeader";
-import Footer from "../../../shared/Footer";
+import Layout from "../../../components/LoveLayout";
 import GetDogList from "./components/GetDogList";
 
 const GiveLove = () => {
   const navigate = useNavigate();
 
   return (
-    <>
-      <MainHeader />
-      <br />
+    <Layout>
       <StSelects>
         <div
           onClick={() => {
@@ -22,9 +20,8 @@ const GiveLove = () => {
         </div>
         <OneSelect>내가 받은</OneSelect>
       </StSelects>
-      <br />
       <GetDogList />
-    </>
+    </Layout>
   );
 };
 

@@ -23,9 +23,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 10px;
 `;
 const StLogo = styled.img`
-  margin-top: 30px;
+  margin-top: 7px;
   width: 162px;
   height: 107px;
 `;

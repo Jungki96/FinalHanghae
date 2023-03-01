@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import MainHeader from "../../shared/MainHeader";
 import MyDogList from "./components/MyDogList";
 import EditInfo from "./components/EditInfo";
 import axios from "axios";
-import Footer from "../../shared/Footer";
+import Layout from "../../components/Layout";
 
 const EditUser = () => {
   const [user, setUser] = useState();
@@ -18,8 +16,6 @@ const EditUser = () => {
         Authorization,
       },
     });
-    console.log(data.myDogs);
-    console.log(data);
     setUser(data);
     setDogs(data.myDogs);
   };
@@ -29,10 +25,7 @@ const EditUser = () => {
   }, []);
 
   return (
-    <>
-      <MainHeader>
-        <div style={{ fontSize: "20px", fontWeight: "bold" }}>설정</div>
-      </MainHeader>
+    <Layout title="설정">
       <Container>
         <br />
         <div>
@@ -46,19 +39,13 @@ const EditUser = () => {
             <MyDogList key={dog.dogId} dog={dog} />
           ))}
         </StImgGroup>
-        <Space />
         <EditInfo user={user} />
       </Container>
-      <Footer />
-    </>
+    </Layout>
   );
 };
 
 export default EditUser;
-
-const Space = styled.div`
-  height: 10vh;
-`;
 
 const Container = styled.div`
   display: flex;
@@ -72,6 +59,7 @@ const Container = styled.div`
 
 const StImgGroup = styled.div`
   padding-top: 5vh;
+  margin-bottom: 30px;
   display: flex;
   justify-content: center;
 `;

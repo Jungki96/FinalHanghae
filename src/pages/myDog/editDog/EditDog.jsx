@@ -9,7 +9,7 @@ const EditDog = () => {
 
   return (
     <>
-      <div>ㅋㅋ</div>
+      <div>미구현 기능입니다 ㅠㅠ</div>
     </>
   );
 };

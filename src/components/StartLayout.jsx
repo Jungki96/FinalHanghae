@@ -23,6 +23,10 @@ const Container = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+
+  @media screen and (max-width: 500px) {
+    background-image: none;
+  }
 `;
 
 const ContainerDiv = styled.div`
@@ -32,7 +36,7 @@ const ContainerDiv = styled.div`
   background-color: white;
   color: var(--color-main);
   width: 375px;
-  height: 860px;
+  height: 812px;
   border: 2px solid black;
   border-radius: 30px;
 `;

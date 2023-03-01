@@ -19,7 +19,6 @@ const InfiniteScroll = () => {
     });
     // setData((prevData) => [...prevData, ...data]);
     setData(data);
-    console.log(data);
     setLoading(false);
     setHasMore(data.length !== 0);
     if (data.length !== 0) {
@@ -51,18 +50,27 @@ const InfiniteScroll = () => {
 
   //chatroom 으로 가야하는지 좋아요로 가야하는지?
   const onSubmitHandler = (id) => {
-    axios.post(`${process.env.REACT_APP_DOG}/chat/room`, id, {
-      headers: {
-        Authorization,
-      },
-    });
+    axios.post(
+      // `${process.env.REACT_APP_DOG}/loves/accept/${id}`,
+      `${process.env.REACT_APP_DOG}/chat/rooms`,
+      { userId: id },
+      {
+        headers: {
+          Authorization,
+        },
+      }
+    );
   };
   const onRejectHandler = (id) => {
-    axios.post(`${process.env.REACT_APP_DOG}//match/reject/${id}`, {
-      headers: {
-        Authorization,
-      },
-    });
+    axios.post(
+      `${process.env.REACT_APP_DOG}//match/reject/${id}`,
+      {},
+      {
+        headers: {
+          Authorization,
+        },
+      }
+    );
   };
 
   return (
@@ -74,8 +82,8 @@ const InfiniteScroll = () => {
             return (
               <OneDog key={id}>
                 {group.map(({ imageUrl, dogName, userId, dogSex }) => (
-                  <Stgroup>
-                    <StDog style={{ backgroundImage: `url(${imageUrl})` }} key={userId}>
+                  <Stgroup key={userId}>
+                    <StDog style={{ backgroundImage: `url(${imageUrl})` }}>
                       {dogSex === "female" ? (
                         <StName> {dogName} (여)</StName>
                       ) : (
@@ -86,7 +94,7 @@ const InfiniteScroll = () => {
                     <div>
                       <button
                         onClick={() => {
-                          onSubmitHandler(id);
+                          onSubmitHandler(userId);
                         }}
                       >
                         수락
@@ -115,7 +123,7 @@ const InfiniteScroll = () => {
 export default InfiniteScroll;
 
 const Container = styled.div`
-  margin-top: 5vh;
+  margin-top: 30px;
 `;
 
 const StOnePage = styled.div`
@@ -133,8 +141,8 @@ const Stgroup = styled.div`
 
 const StDog = styled.div`
   position: relative;
-  width: 14vh;
-  height: 20vh;
+  width: 100px;
+  height: 100px;
   padding: 10px;
   margin: 10px 10px 10px 10px;
   border-radius: 20px;
@@ -155,5 +163,5 @@ const OneDog = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: 80vh;
+  width: 375px;
 `;

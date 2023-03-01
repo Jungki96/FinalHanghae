@@ -5,9 +5,7 @@ function DogSignUpImage() {
   return (
     <div>
       <StDiv3>
-        <StP3> 강아지의</StP3>
-        <br />
-        <StP2>사진을 2장까지 추가 할 수있습니다.</StP2>
+        <StP2>메인 강아지 사진을 추가해주세요.</StP2>
       </StDiv3>
     </div>
   );
@@ -16,11 +14,7 @@ function DogSignUpImage() {
 export default DogSignUpImage;
 
 const StDiv3 = styled.div`
-  margin-bottom: 15%;
-`;
-
-const StP3 = styled.div`
-  font-size: 20px;
+  margin-bottom: 52px;
 `;
 
 const StP2 = styled.div`

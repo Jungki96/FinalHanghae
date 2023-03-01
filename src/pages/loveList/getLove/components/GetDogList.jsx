@@ -12,17 +12,17 @@ const InfiniteScroll = () => {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const res = await axios.get(`${process.env.REACT_APP_DOG}/loves/received`, {
+    const { data } = await axios.get(`${process.env.REACT_APP_DOG}/loves/received`, {
       headers: {
         Authorization,
       },
     });
-    // setData((prevData) => [...prevData, ...res.data]);
-    setData(res.data);
-    console.log(res.data);
+    // setData((prevData) => [...prevData, ...data]);
+    setData(data);
+    console.log(data);
     setLoading(false);
-    setHasMore(res.data.length !== 0);
-    if (res.data.length !== 0) {
+    setHasMore(data.length !== 0);
+    if (data.length !== 0) {
       setPage((num) => num + 1);
     }
   }, []);
@@ -66,51 +66,49 @@ const InfiniteScroll = () => {
   };
 
   return (
-    <>
-      <Container>
-        <StOnePage>
-          {sliceData.map((why, id) => {
-            if (id % 2 === 0) {
-              const group = sliceData.slice(id, id + 2);
-              return (
-                <OneDog key={id}>
-                  {group.map(({ imageUrl, dogName, userId, dogSex }) => (
-                    <Stgroup>
-                      <StDog style={{ backgroundImage: `url(${imageUrl})` }} key={userId}>
-                        {dogSex === "female" ? (
-                          <StName> {dogName} (여)</StName>
-                        ) : (
-                          <StName> {dogName} (남)</StName>
-                        )}
-                      </StDog>
-                      <br />
-                      <div>
-                        <button
-                          onClick={() => {
-                            onSubmitHandler(id);
-                          }}
-                        >
-                          수락
-                        </button>
-                        <button
-                          onClick={() => {
-                            onRejectHandler(id);
-                          }}
-                        >
-                          거절
-                        </button>
-                      </div>
-                    </Stgroup>
-                  ))}
-                </OneDog>
-              );
-            }
-            return null;
-          })}
-          <div ref={observer} />
-        </StOnePage>
-      </Container>
-    </>
+    <Container>
+      <StOnePage>
+        {sliceData.map((why, id) => {
+          if (id % 2 === 0) {
+            const group = sliceData.slice(id, id + 2);
+            return (
+              <OneDog key={id}>
+                {group.map(({ imageUrl, dogName, userId, dogSex }) => (
+                  <Stgroup>
+                    <StDog style={{ backgroundImage: `url(${imageUrl})` }} key={userId}>
+                      {dogSex === "female" ? (
+                        <StName> {dogName} (여)</StName>
+                      ) : (
+                        <StName> {dogName} (남)</StName>
+                      )}
+                    </StDog>
+                    <br />
+                    <div>
+                      <button
+                        onClick={() => {
+                          onSubmitHandler(id);
+                        }}
+                      >
+                        수락
+                      </button>
+                      <button
+                        onClick={() => {
+                          onRejectHandler(id);
+                        }}
+                      >
+                        거절
+                      </button>
+                    </div>
+                  </Stgroup>
+                ))}
+              </OneDog>
+            );
+          }
+          return null;
+        })}
+        <div ref={observer} />
+      </StOnePage>
+    </Container>
   );
 };
 

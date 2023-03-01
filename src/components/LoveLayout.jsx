@@ -8,7 +8,9 @@ function Layout({ children }) {
   return (
     <Container>
       <ContainerDiv>
-        <Header />
+        <Header>
+          <h3>좋아요</h3>
+        </Header>
         <Content>{children}</Content>
         <FooterWrapper>
           <Footer />

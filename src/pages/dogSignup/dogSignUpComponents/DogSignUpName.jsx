@@ -17,7 +17,7 @@ export default DogSignUpName;
 
 const StDiv2 = styled.div`
   margin-bottom: 52px;
-  margin-left: 15px;
+  margin-left: 21px;
 `;
 const StP3 = styled.div`
   font-size: 18px;

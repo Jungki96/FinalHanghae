@@ -19,19 +19,18 @@ const CardlistPagination = ({ total, limit, page, setPage }) => {
 export default CardlistPagination;
 
 const Nav = styled.nav`
-  width: 80vw;
+  width: 350px;
   display: flex;
   justify-content: space-between;
   gap: 4px;
-  margin: 16px;
 `;
 
 const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 7vh;
-  width: 5vw;
+  height: 80px;
+  width: 10px;
   border: none;
   border-radius: 8px;
   padding: 8px;

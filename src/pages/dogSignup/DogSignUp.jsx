@@ -99,23 +99,6 @@ function SignUpForm() {
     setImageSrcs(imageSrcTemp.splice(0, 1));
   };
 
-  const handleChangeFile1 = (event) => {
-    let imageSrcTemp = imageSrcs;
-    let readers = [];
-    for (let i = 0; i < event.target.files.length; i++) {
-      readers.push(readFileAsText(event.target.files[i]));
-      imageSrcTemp.push(event.target.files[i]);
-    }
-    Promise.all(readers).then((values) => {
-      let imageTemp = imageSrcsText2;
-      values.forEach((value) => {
-        imageTemp = [...imageTemp, value];
-      });
-      setImageSrcsText2(imageTemp.splice(0, 1));
-    });
-    setImageSrcs2(imageSrcTemp.splice(0, 1));
-  };
-
   const readFileAsText = (fileBlob) => {
     return new Promise(function (resolve, reject) {
       let fr = new FileReader();
@@ -154,7 +137,7 @@ function SignUpForm() {
           <DogSignUpTop />
           <div>
             <StNum> ({signNumber + 1}/5)</StNum>
-            <DogSignUpName></DogSignUpName>
+            <DogSignUpName />
             <StInput
               autoComplete="off"
               id="dogName"
@@ -186,9 +169,9 @@ function SignUpForm() {
           <DogSignUpTop />
           <div>
             <StNum> ({signNumber + 1}/5)</StNum>
-            <DogSignUpSex></DogSignUpSex>
+            <DogSignUpSex />
             <div>
-              <StImg src={male} />
+              <StImg2 src={male} />
               <StImg src={female} />
               <StDiv4>
                 <StDiv5>
@@ -198,77 +181,59 @@ function SignUpForm() {
                     value="Male"
                     defaultChecked
                   />
-                  <label>남</label>
                 </StDiv5>
                 <StDiv6>
                   <input type="radio" name="dogSexRadio" value="Female" />
-                  <label>여</label>
                 </StDiv6>
               </StDiv4>
             </div>
-            <StBtn className="on" onClick={next} disabled={!dogSexState}>
-              다음
-            </StBtn>
-            <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
-              뒤로
-            </StBackBtn>
+            <StBtnDiv>
+              <StBackBtn onClick={() => setSignup(!signup)}>뒤로</StBackBtn>
+              <StBtn className="on" onClick={next}>
+                다음
+              </StBtn>
+            </StBtnDiv>
           </div>
         </StartLayout>
       )}
 
       {signNumber === 2 && (
-        <div>
-          <Container>
-            <StNum> ({signNumber + 1}/5)</StNum>
-            <DogSignUpImage></DogSignUpImage>
-            <StDiv4>
-              <div>
-                <ImagePreviewContainer>
-                  {(imageSrcsText || []).map((url) => (
-                    <ImagePreview src={url} alt="..." />
-                  ))}
-                </ImagePreviewContainer>
-                <InputContainer hasImage={imageSrcs.length > 0}>
-                  <input
-                    required
-                    type="file"
-                    accept="image/jpeg, image/jpg, image/png"
-                    onChange={handleChangeFile}
-                    multiple
-                  />
-                  <StImg1 src={plusbutton} />
-                </InputContainer>
-              </div>
-              <div>
-                <ImagePreviewContainer>
-                  {(imageSrcsText2 || []).map((url) => (
-                    <ImagePreview src={url} alt="..." />
-                  ))}
-                </ImagePreviewContainer>
-                <InputContainer hasImage={imageSrcs2.length > 0}>
-                  <input
-                    required
-                    type="file"
-                    accept="image/jpeg, image/jpg, image/png"
-                    onChange={handleChangeFile1}
-                    multiple
-                  />
-                  <StImg1 src={plusbutton} />
-                </InputContainer>
-              </div>
-            </StDiv4>
-            <StBtn onClick={next} disabled={!imageSrcs}>
-              다음
-            </StBtn>{" "}
+        <StartLayout>
+          <DogSignUpTop />
+          <StNum> ({signNumber + 1}/5)</StNum>
+          <DogSignUpImage />
+          <div>
+            <div>
+              {(imageSrcsText || []).map((url) => (
+                <ImagePreview src={url} alt="..." />
+              ))}
+            </div>
+            <InputContainer hasImage={imageSrcs.length > 0}>
+              <input
+                required
+                type="file"
+                accept="image/jpeg, image/jpg, image/png"
+                onChange={handleChangeFile}
+                multiple
+              />
+              <StImg1 src={plusbutton} />
+            </InputContainer>
+          </div>
+
+          <StBtnDiv>
             <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
               뒤로
             </StBackBtn>
-          </Container>
-        </div>
+            <StBtn onClick={next} disabled={!imageSrcs}>
+              다음
+            </StBtn>
+          </StBtnDiv>
+        </StartLayout>
       )}
 
       {signNumber === 3 && (
-        <div>
+        <StartLayout>
+          <DogSignUpTop />
           <StNum> (거의 다 왔어요!) </StNum>
           <DogSignUpDetail></DogSignUpDetail>
           <StTextarea
@@ -280,18 +245,19 @@ function SignUpForm() {
               setSignData({ ...signData, dogDetails: e.target.value });
             }}
           />
-          <StBtn
-            className="on"
-            onClick={combinedHandler}
-            disabled={!dogDetailsState}
-          >
-            다음
-          </StBtn>
-
-          <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
-            뒤로
-          </StBackBtn>
-        </div>
+          <StBtnDiv>
+            <StBackBtn onClick={() => setSignNumber(signNumber - 1)}>
+              뒤로
+            </StBackBtn>
+            <StBtn
+              className="on"
+              onClick={combinedHandler}
+              disabled={!dogDetailsState}
+            >
+              다음
+            </StBtn>
+          </StBtnDiv>
+        </StartLayout>
       )}
     </StForm>
   );
@@ -304,23 +270,12 @@ const StDiv4 = styled.div`
   flex-direction: row;
 `;
 const StDiv5 = styled.div`
-  margin-left: 18%;
+  margin-left: 65px;
 `;
 const StDiv6 = styled.div`
-  margin-left: 31%;
-  margin-bottom: 25%;
+  margin-left: 118px;
 `;
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const ImagePreviewContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-`;
+
 const ImagePreview = styled.img`
   width: 118px;
   height: 160px;
@@ -338,7 +293,7 @@ const InputContainer = styled.div`
   overflow: hidden;
   display: flex;
   justify-content: center;
-  margin-right: 18px;
+  margin-left: 1px;
   border-radius: 25px;
   align-items: center;
   display: ${(props) => (props.hasImage ? "none" : "flex")};
@@ -365,9 +320,14 @@ const StNum = styled.div`
   margin-bottom: 36px;
 `;
 const StImg = styled.img`
-  width: 108px;
-  height: 96px;
-  margin-left: 5%;
+  width: 120px;
+  height: 100px;
+  margin-left: 17px;
+`;
+const StImg2 = styled.img`
+  width: 123px;
+  height: 104px;
+  margin-left: 15px;
 `;
 const StImg1 = styled.img`
   width: 30px;
@@ -395,14 +355,15 @@ const StInput = styled.input`
   }
 `;
 const StTextarea = styled.textarea`
-  width: 100%;
+  width: 257px;
   height: 140px;
   border: 2px solid #000000;
   border-radius: 20px;
-  margin-bottom: 20%;
-  padding-left: 10px;
-  padding-top: 15px;
-  margin-left: -2%;
+  margin-bottom: 34px;
+  padding-left: 5px;
+  margin-left: 6px;
+  padding-top: 5px;
+
   &::placeholder {
     font-size: 12px;
     padding-top: 15px;
@@ -429,7 +390,7 @@ const StBtn = styled.button`
 const StBackBtn = styled.button`
   width: 121px;
   height: 50px;
-  margin-left: 16px;
+  margin-left: 19px;
   font-size: 16px;
   line-height: 23px;
   font-weight: 700;
@@ -440,7 +401,7 @@ const StBackBtn = styled.button`
 `;
 const StBtnDiv = styled.div`
   margin-top: 52px;
-  margin-right: 15px;
+  margin-right: 11px;
 `;
 
 const StForm = styled.form`

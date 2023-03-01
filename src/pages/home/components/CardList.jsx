@@ -62,8 +62,7 @@ const CardList = () => {
   return (
     <Container>
       <Image key={dogs.dogId} images={mainImage} data={dogs} />
-      <Space />
-      <div className="btnGruop">
+      <StBtnGroup>
         <STCircleBorder>
           <IconButton onClick={() => handleFavoriteClick()}>
             <FavoriteBorderIcon className="icon" />
@@ -74,30 +73,22 @@ const CardList = () => {
             <ClearIcon className="icon" />
           </IconButton>
         </div>
-      </div>
+      </StBtnGroup>
     </Container>
   );
 };
 export default CardList;
 
 const Container = styled.div`
+  height: 605px;
+`;
+
+const StBtnGroup = styled.div`
+  z-index: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-direction: column;
-  margin-top: 5vh;
-  .btnGruop {
-    z-index: 1;
-    display: flex;
-    justify-content: flex-start;
-  }
+  margin-top: 20px;
 `;
-
-const Space = styled.div`
-  margin-top: 1vh;
-`;
-
 const STCircleBorder = styled.div`
-  margin-bottom: 10vh;
-  margin-right: 6vh;
+  margin-right: 80px;
 `;

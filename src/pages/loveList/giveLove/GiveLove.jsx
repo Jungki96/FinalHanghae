@@ -1,16 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import MainHeader from "../../../shared/MainHeader";
 import GiveDogList from "./components/GiveDogList";
+import Layout from "../../../components/LoveLayout";
 
 const GiveLove = () => {
   const navigate = useNavigate();
 
   return (
-    <>
-      <MainHeader />
-      <br />
+    <Layout>
       <StSelects>
         <OneSelect>내가 보낸</OneSelect>
         <div
@@ -21,9 +19,8 @@ const GiveLove = () => {
           내가 받은
         </div>
       </StSelects>
-      <br />
       <GiveDogList />
-    </>
+    </Layout>
   );
 };
 

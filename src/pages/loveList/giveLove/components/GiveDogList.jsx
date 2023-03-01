@@ -48,41 +48,44 @@ const GiveDogList = () => {
   const sliceData = dogs.slice(0, page * 2);
 
   return (
-    <>
-      <Container>
-        <StOnePage>
-          {sliceData.map((notuse, index) => {
-            if (index % 2 === 0) {
-              const group = sliceData.slice(index, index + 2);
-              return (
-                <OneDog key={index}>
-                  {group.map(({ userId, dogName, dogSex, imageUrl }) => (
-                    <OneDog key={userId}>
-                      <StDog style={{ backgroundImage: `url(${imageUrl})` }}>
-                        {dogSex === "female" ? (
-                          <StName> {dogName} (여)</StName>
-                        ) : (
-                          <StName> {dogName} (남)</StName>
-                        )}
-                      </StDog>
-                      <Space />
-                    </OneDog>
-                  ))}
-                </OneDog>
-              );
-            }
-            return null;
-          })}
-          <div ref={observer} />
-        </StOnePage>
-      </Container>
-    </>
+    <Container>
+      <StOnePage>
+        {sliceData.map((notuse, id) => {
+          if (id % 2 === 0) {
+            const group = sliceData.slice(id, id + 2);
+            return (
+              <OneDog key={id}>
+                {group.map(({ userId, dogName, dogSex, imageUrl }) => (
+                  <Stgroup key={userId}>
+                    <StDog style={{ backgroundImage: `url(${imageUrl})` }}>
+                      {dogSex === "female" ? (
+                        <StName> {dogName} (여)</StName>
+                      ) : (
+                        <StName> {dogName} (남)</StName>
+                      )}
+                    </StDog>
+                    <Space />
+                  </Stgroup>
+                ))}
+              </OneDog>
+            );
+          }
+          return null;
+        })}
+        <div ref={observer} />
+      </StOnePage>
+    </Container>
   );
 };
 export default GiveDogList;
 
 const Container = styled.div`
-  margin-top: 5vh;
+  margin-top: 30px;
+`;
+
+const Stgroup = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const StOnePage = styled.div`
@@ -91,10 +94,11 @@ const StOnePage = styled.div`
   align-items: center;
   /* justify-content: center; */
 `;
+
 const StDog = styled.div`
   position: relative;
-  width: 14vh;
-  height: 20vh;
+  width: 100px;
+  height: 100px;
   padding: 10px;
   margin: 10px 10px 10px 10px;
   border-radius: 20px;
@@ -114,7 +118,7 @@ const OneDog = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: 80vh;
+  width: 375px;
 `;
 const Space = styled.div`
   margin-top: -15vh;

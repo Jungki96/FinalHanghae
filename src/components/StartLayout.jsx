@@ -32,7 +32,7 @@ const ContainerDiv = styled.div`
   background-color: white;
   color: var(--color-main);
   width: 375px;
-  height: 812px;
+  height: 860px;
   border: 2px solid black;
   border-radius: 30px;
 `;

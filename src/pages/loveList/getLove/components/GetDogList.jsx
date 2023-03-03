@@ -19,6 +19,7 @@ const InfiniteScroll = () => {
     });
     // setData((prevData) => [...prevData, ...data]);
     setData(data);
+    console.log(data);
     setLoading(false);
     setHasMore(data.length !== 0);
     if (data.length !== 0) {
@@ -49,21 +50,10 @@ const InfiniteScroll = () => {
   const sliceData = data.slice(0, page * 3);
 
   //chatroom 으로 가야하는지 좋아요로 가야하는지?
-  const onSubmitHandler = (id) => {
+  const onSubmitHandler = (dogId) => {
     axios.post(
       // `${process.env.REACT_APP_DOG}/loves/accept/${id}`,
-      `${process.env.REACT_APP_DOG}/chat/rooms`,
-      { userId: id },
-      {
-        headers: {
-          Authorization,
-        },
-      }
-    );
-  };
-  const onRejectHandler = (id) => {
-    axios.post(
-      `${process.env.REACT_APP_DOG}//match/reject/${id}`,
+      `${process.env.REACT_APP_DOG}/loves/accept/${dogId}`,
       {},
       {
         headers: {
@@ -71,6 +61,19 @@ const InfiniteScroll = () => {
         },
       }
     );
+    console.log(dogId);
+  };
+  const onRejectHandler = (dogId) => {
+    axios.post(
+      `${process.env.REACT_APP_DOG}/loves/reject/${dogId}`,
+      {},
+      {
+        headers: {
+          Authorization,
+        },
+      }
+    );
+    console.log(dogId);
   };
 
   return (
@@ -81,7 +84,7 @@ const InfiniteScroll = () => {
             const group = sliceData.slice(id, id + 2);
             return (
               <OneDog key={id}>
-                {group.map(({ imageUrl, dogName, userId, dogSex }) => (
+                {group.map(({ imageUrl, dogName, userId, dogSex, dogId }) => (
                   <Stgroup key={userId}>
                     <StDog style={{ backgroundImage: `url(${imageUrl})` }}>
                       {dogSex === "female" ? (
@@ -94,14 +97,14 @@ const InfiniteScroll = () => {
                     <div>
                       <button
                         onClick={() => {
-                          onSubmitHandler(userId);
+                          onSubmitHandler(dogId);
                         }}
                       >
                         수락
                       </button>
                       <button
                         onClick={() => {
-                          onRejectHandler(id);
+                          onRejectHandler(dogId);
                         }}
                       >
                         거절

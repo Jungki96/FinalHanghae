@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import male from "../../../assets/img/male.PNG";
 import female from "../../../assets/img/female.PNG";
@@ -8,11 +8,7 @@ import female from "../../../assets/img/female.PNG";
 const EditDog = ({ dog, images, onChangeTrue }) => {
   const Authorization = sessionStorage.getItem("accessToken");
   const { id } = useParams();
-  const [editData, setEditData] = useState({
-    dogName: "",
-    dogSex: "",
-    dogDetails: "",
-  });
+  const [editData, setEditData] = useState({});
 
   const onEditData = async (e) => {
     await axios.patch(`${process.env.REACT_APP_DOG}/dogs/${id}`, e, {
@@ -21,8 +17,7 @@ const EditDog = ({ dog, images, onChangeTrue }) => {
       },
     });
     alert("수정이 완료되었습니다.");
-    window.location.reload();
-    // console.log(e);
+    // window.location.reload();
   };
 
   return (
@@ -44,26 +39,69 @@ const EditDog = ({ dog, images, onChangeTrue }) => {
           <StImg2 src={male} />
           <StImg src={female} />
           <StDiv4>
-            <StDiv5>
-              <input type="radio" name="dogSexRadio" value="Male" defaultChecked />
-            </StDiv5>
-            <StDiv6>
-              <input type="radio" name="dogSexRadio" value="Female" />
-            </StDiv6>
+            {dog.dogSex === "male" ? (
+              <>
+                <StDiv5>
+                  <input
+                    type="radio"
+                    name="dogSex"
+                    value="male"
+                    onChange={(ev) =>
+                      setEditData({
+                        ...editData,
+                        dogSex: ev.target.value,
+                      })
+                    }
+                    defaultChecked
+                  />
+                </StDiv5>
+                <StDiv6>
+                  <input
+                    type="radio"
+                    name="dogSex"
+                    value="female"
+                    onChange={(ev) =>
+                      setEditData({
+                        ...editData,
+                        dogSex: ev.target.value,
+                      })
+                    }
+                  />
+                </StDiv6>
+              </>
+            ) : (
+              <>
+                <StDiv5>
+                  <input
+                    type="radio"
+                    name="dogSex"
+                    value="male"
+                    onChange={(ev) =>
+                      setEditData({
+                        ...editData,
+                        dogSex: ev.target.value,
+                      })
+                    }
+                  />
+                </StDiv5>
+                <StDiv6>
+                  <input
+                    type="radio"
+                    name="dogSex"
+                    value="female"
+                    onChange={(ev) =>
+                      setEditData({
+                        ...editData,
+                        dogSex: ev.target.value,
+                      })
+                    }
+                    defaultChecked
+                  />
+                </StDiv6>
+              </>
+            )}
           </StDiv4>
         </div>
-        <StBox>설명</StBox>
-        <StName
-          type="text"
-          placeholder={dog.dogDetails}
-          onChange={(ev) => {
-            setEditData({
-              ...editData,
-              dogDetails: ev.target.value,
-            });
-          }}
-        />
-        <Space />
         <StBox>사진</StBox>
         <br />
         <div>
@@ -73,7 +111,18 @@ const EditDog = ({ dog, images, onChangeTrue }) => {
             </div>
           ))}
         </div>
-        <br />
+        <StBox>설명</StBox>
+        <StDesc
+          type="text"
+          placeholder={dog.dogDetails}
+          onChange={(ev) => {
+            setEditData({
+              ...editData,
+              dogDetails: ev.target.value,
+            });
+          }}
+        />
+        {/* <Space /> */}
         <StBtnGroup>
           <StButton onClick={onChangeTrue}>취소하기</StButton>
           <StButton onClick={() => onEditData(editData)}>수정완료</StButton>
@@ -95,10 +144,10 @@ const StBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 30px;
-  margin-top: 20px;
-  margin-bottom: 5px;
+  width: 80px;
+  height: 25px;
+  margin-top: 10px;
+  margin-bottom: 7px;
   background: #ffffff;
   border: 1px solid #4269b4;
   border-radius: 20px;
@@ -112,12 +161,29 @@ const StPeople = styled.div`
   border-radius: 20px;
   background-size: cover;
   background-position: center;
-  box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
 `;
 
 const StName = styled.input`
   font-size: large;
   color: black;
+  text-align: center;
+  margin-bottom: 10px;
+  border: 1px solid gray;
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  border-bottom-style: 1px;
+  width: 100px;
+`;
+const StDesc = styled.input`
+  font-size: large;
+  color: black;
+  text-align: center;
+  margin-bottom: 10px;
+  border: 1px solid gray;
+  border-radius: 10px 10px 10px 10px;
+  width: 100px;
 `;
 
 const StButton = styled.div`

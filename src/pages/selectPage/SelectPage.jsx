@@ -1,25 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import welecome from "../../assets/img/welecome.jpg";
 import StartLayout from "../../components/StartLayout";
+import { useEffect } from "react";
 
 function WelcomePage() {
   const navigate = useNavigate();
+  const Authorization = sessionStorage.getItem("accessToken");
+  const [isTrue, setIsTrue] = useState();
+
+  const fetchTrue = () => {
+    axios
+      .get(`${process.env.REACT_APP_DOG}/dogs`, {
+        headers: {
+          Authorization,
+        },
+      })
+      .then((res) => {
+        if (res.data === true) {
+          navigate("/");
+          window.location.reload();
+        } else {
+          navigate("/dogSignup");
+          window.location.reload();
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchTrue();
+  }, []);
 
   return (
     <StartLayout>
       <StContainer>
-        <Space />
-        <SignUpBtn onClick={() => navigate("/dogsignup")}>첫 반려견 추가</SignUpBtn>
-        <SignUpBtn
-          onClick={() => {
-            navigate("/");
-            window.location.reload();
-          }}
-        >
-          산책 메이트 만들기
-        </SignUpBtn>
+        {/* {!isTrue ? (
+          <>
+            <Space />
+            <SignUpBtn onClick={() => navigate("/dogsignup")}>첫 반려견 추가</SignUpBtn>
+          </>
+        ) : (
+          <>
+            <Space />
+            <SignUpBtn
+              onClick={() => {
+                navigate("/");
+                window.location.reload();
+              }}
+            >
+              산책 메이트 만들기
+            </SignUpBtn>
+          </>
+        )} */}
       </StContainer>
     </StartLayout>
   );

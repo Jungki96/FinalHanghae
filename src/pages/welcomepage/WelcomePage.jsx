@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import StartLayout from "../../components/StartLayout";
 import welecome from "../../assets/img/welecome.jpg";
@@ -19,7 +19,9 @@ function WelcomePage() {
           <br /> <br />
           <span>산책도, 교류도</span> 해요!
         </StH1>
-        <StBtn onClick={() => navigate("/login")}>시작하기</StBtn>
+        <Fade>
+          <StBtn onClick={() => navigate("/login")}>시작하기</StBtn>
+        </Fade>
       </StContainer>
     </StartLayout>
   );
@@ -85,10 +87,35 @@ const StBtn = styled.button`
   align-items: center;
   padding: 13px 100px;
   gap: 10px;
-
   width: 267px;
   height: 46px;
   background: #2f58ac;
-  border-radius: 60px;
   color: #ffffff;
+  border-radius: 60px;
+  border-color: black;
+`;
+
+//fade in
+const fadeIn = keyframes`
+  from {
+    opacity: 0
+  }
+  to {
+    opacity: 1
+  }
+`;
+const fadeOut = keyframes`
+  from {
+    /* transform: scale(1); */
+    opacity: 1;
+  }
+
+  to {
+    /* transform: scale(.25); */
+    opacity: 0;
+  }
+`;
+const Fade = styled.div`
+  ${(props) => (props.out ? `display: inline-block;` : `display: inline-block;`)}
+  animation: ${(props) => (props.out ? fadeOut : fadeIn)} 3s linear;
 `;

@@ -5,6 +5,8 @@ import MainHeader from "../../shared/MainHeader";
 import axios from "axios";
 import EditDog from "./editDog/EditDog";
 import Layout from "../../components/Layout";
+import male from "../../assets/img/male.PNG";
+import female from "../../assets/img/female.PNG";
 
 const MyDog = () => {
   const [edit, setEdit] = useState(false);
@@ -22,7 +24,7 @@ const MyDog = () => {
     });
     setDog(data);
     setImages(data.images);
-    console.log(images);
+    console.log(dog);
   };
 
   const onDeleteDog = () => {
@@ -51,17 +53,11 @@ const MyDog = () => {
           <StBefore>
             <StBox>이름</StBox>
             <StName>{dog.dogName}</StName>
-            <Space />
+
             <StBox>성별</StBox>
-            <br />
-            <StName>{dog.dogSex}</StName>
-            <Space />
-            <StBox>설명</StBox>
-            <br />
-            <StName>{dog.dogDetails}</StName>
-            <Space />
+            {dog.dogSex === "male" ? <StImg src={male} /> : <StImg src={female} />}
+
             <StBox>사진</StBox>
-            <br />
             <div>
               {images.map((image) => (
                 <div key={image.id}>
@@ -69,7 +65,8 @@ const MyDog = () => {
                 </div>
               ))}
             </div>
-            <br />
+            <StBox>설명</StBox>
+            <StDesc>{dog.dogDetails}</StDesc>
             <StBtnGroup>
               <StButton onClick={() => setEdit(true)}>강아지 수정</StButton>
               {/* 보류 */}
@@ -110,8 +107,8 @@ const StBox = styled.div`
   align-items: center;
   width: 100px;
   height: 30px;
-  margin-top: 20px;
-  margin-bottom: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   background: #ffffff;
   border: 1px solid #4269b4;
   border-radius: 20px;
@@ -119,18 +116,38 @@ const StBox = styled.div`
 
 const StPeople = styled.div`
   position: relative;
-  width: 70px;
+  width: 60px;
   padding: 30px;
-  height: 100px;
+  height: 80px;
   border-radius: 20px;
   background-size: cover;
   background-position: center;
-  box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.3);
 `;
 
 const StName = styled.h3`
   font-size: large;
   color: black;
+  text-align: center;
+  margin-bottom: 10px;
+  border: 1px solid gray;
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  border-bottom-style: 1px;
+  padding-bottom: 8px;
+  width: 100px;
+`;
+
+const StDesc = styled.div`
+  font-size: large;
+  color: black;
+  text-align: center;
+  margin-bottom: 10px;
+  border: 1px solid gray;
+  border-radius: 10px 10px 10px 10px;
+  width: 200px;
+  height: 50px;
 `;
 
 const StButton = styled.div`
@@ -145,6 +162,10 @@ const StButton = styled.div`
   background: #4269b4;
   border: 1px solid white;
   border-radius: 20px;
+`;
+const StImg = styled.img`
+  width: 90px;
+  height: 75px;
 `;
 
 const Space = styled.div`

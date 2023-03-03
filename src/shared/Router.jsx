@@ -34,13 +34,14 @@ const Router = () => {
             <Route path="/dogSignUp" element={<DogSignUp />} />
             <Route path="/newaddress" element={<NewAddress />} />
             <Route path="/chattingList" element={<ChattingList />} />
-            <Route path="/home" element={<Home />} />
+            {/* <Route path="/home" element={<Home />} /> */}
           </>
         ) : (
           <>
             <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/newaddress" element={<NewAddress />} />
-            <Route path="/selectpage" element={<SelectPage />} />
+            {/* <Route path="/selectpage" element={<SelectPage />} /> */}
             <Route path="/dogSignUp" element={<DogSignUp />} />
             <Route path="/giveLove" element={<GiveLove />} />
             <Route path="/getLove" element={<GetLove />} />

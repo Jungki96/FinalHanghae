@@ -39,18 +39,26 @@ const MyDog = () => {
     fetchList();
   }, []);
 
+  // props 끌어올리기 용!!!
+  const onChangeTrue = () => {
+    setEdit(false);
+  };
+
   return (
     <Layout title="설정">
       <Container>
         {!edit ? (
           <StBefore>
             <StBox>이름</StBox>
-            <br />
             <StName>{dog.dogName}</StName>
             <Space />
             <StBox>성별</StBox>
             <br />
             <StName>{dog.dogSex}</StName>
+            <Space />
+            <StBox>설명</StBox>
+            <br />
+            <StName>{dog.dogDetails}</StName>
             <Space />
             <StBox>사진</StBox>
             <br />
@@ -63,15 +71,15 @@ const MyDog = () => {
             </div>
             <br />
             <StBtnGroup>
-              {/* 아직 페이지 수정 안함 */}
               <StButton onClick={() => setEdit(true)}>강아지 수정</StButton>
-              <StButton onClick={() => onDeleteDog()}>강아지 삭제</StButton>
+              {/* 보류 */}
+              {/* <StButton onClick={() => onDeleteDog()}>강아지 삭제</StButton> */}
             </StBtnGroup>
           </StBefore>
         ) : (
-          <div>
-            <EditDog />
-          </div>
+          <StBefore>
+            <EditDog dog={dog} images={images} edit={edit} onChangeTrue={onChangeTrue} />
+          </StBefore>
         )}
       </Container>
     </Layout>
@@ -140,7 +148,7 @@ const StButton = styled.div`
 `;
 
 const Space = styled.div`
-  height: 40px;
+  height: 20px;
 `;
 
 const StBtnGroup = styled.div`

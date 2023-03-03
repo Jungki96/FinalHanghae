@@ -130,6 +130,14 @@ function SignUpForm() {
   //모달창 띄우기
   const [signup, setSignup] = useState(false);
 
+  //ENTER키 자동 금지
+  const handleEnterPress = (e) => {
+    if (e.keyCode === 13 && e.shiftKey == false) {
+      e.preventDefault();
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <StForm>
       {signNumber === 0 && (
@@ -139,6 +147,8 @@ function SignUpForm() {
             <StNum> ({signNumber + 1}/5)</StNum>
             <DogSignUpName />
             <StInput
+              type="text"
+              onKeyDown={handleEnterPress}
               autoComplete="off"
               id="dogName"
               required
@@ -154,7 +164,6 @@ function SignUpForm() {
                 다음
               </StBtn>
             </StBtnDiv>
-
             {signup && (
               <DogSignUpModal closeModal={() => setSignup(!signup)}>
                 <DogModalDetail />
@@ -264,6 +273,7 @@ function SignUpForm() {
 }
 
 export default SignUpForm;
+const Sbtn = styled.button``;
 
 const StDiv4 = styled.div`
   display: flex;
@@ -337,6 +347,7 @@ const StImg1 = styled.img`
   margin-top: 120px;
 `;
 const StInput = styled.input`
+  display: block;
   margin-left: 15px;
   width: 257px;
   height: 52px;
@@ -360,9 +371,9 @@ const StTextarea = styled.textarea`
   border: 2px solid #000000;
   border-radius: 20px;
   margin-bottom: 34px;
-  padding-left: 5px;
+  padding-left: 20px;
   margin-left: 6px;
-  padding-top: 5px;
+  padding-top: 30px;
 
   &::placeholder {
     font-size: 12px;

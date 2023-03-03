@@ -17,6 +17,7 @@ const EditUser = () => {
       },
     });
     setUser(data);
+    console.log(data);
     setDogs(data.myDogs);
   };
 
@@ -31,7 +32,7 @@ const EditUser = () => {
         <div>
           <div style={{ fontSize: "20px", fontWeight: "bold" }}>안녕하세요 {user?.username}님!</div>
           <br />
-          <div>주소:{user?.latitude}</div>
+          <div>주소:{user?.address.split(" ").slice(0, 3).join(" ")}</div>
           <div style={{ fontSize: "15px" }}>{user?.email}</div>
         </div>
         <StImgGroup>

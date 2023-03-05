@@ -11,12 +11,12 @@ function WelcomePage() {
     <StartLayout>
       <StContainer>
         <StP1>
-          우리 강아지의 <span>산책 매칭</span>
+          우리 강아지의<span>산책 매칭</span>
         </StP1>
         <StImg src={whitetogather} />
         <StH1>
           인근의 <span>강아지 친구와 매칭</span>되어
-          <br /> <br />
+          <Space />
           <span>산책도, 교류도</span> 해요!
         </StH1>
         <Fade>
@@ -42,7 +42,9 @@ const StContainer = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  border: 3px solid black;
   border-radius: 30px;
+  /* box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3); */
 `;
 const StP1 = styled.p`
   width: 200px;
@@ -55,6 +57,7 @@ const StP1 = styled.p`
   font-weight: 400;
   margin-top: 58px;
   span {
+    margin-left: 6px;
     font-size: 16px;
     font-weight: 600;
   }
@@ -76,9 +79,13 @@ const StH1 = styled.h1`
   height: 23px;
   font-size: 24px;
   color: #ffffff;
-  font-weight: 400;
+  font-weight: 200;
   text-align: center;
   margin-bottom: 185px;
+  span {
+    font-size: 24px;
+    font-weight: 700;
+  }
 `;
 const StBtn = styled.button`
   display: flex;
@@ -92,7 +99,12 @@ const StBtn = styled.button`
   background: #2f58ac;
   color: #ffffff;
   border-radius: 60px;
-  border-color: black;
+  border-color: transparent;
+  cursor: pointer;
+`;
+
+const Space = styled.div`
+  height: 10px;
 `;
 
 //fade in

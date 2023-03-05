@@ -36,7 +36,7 @@ export const __postDog = createAsyncThunk(
       var config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://midcon.shop/dogs",
+        url: `${process.env.REACT_APP_DOG}`,
         headers: {
           Authorization: Authorization,
           "Content-Type": "multipart/form-data",

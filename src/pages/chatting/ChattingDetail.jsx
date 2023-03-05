@@ -5,28 +5,35 @@ import SockJS from "sockjs-client";
 import styled from "styled-components";
 import { subMessage } from "../../redux/modules/socketSlice";
 import Stomp from "stompjs";
-import { __postChatopenThunk } from "../../redux/modules/chattingSlice";
+import { __getChatListThunk, __postChatopenThunk } from "../../redux/modules/chattingSlice";
+import Layout from "../../components/Layout";
 
 const ChattingDetail = () => {
-  const navigate = useNavigate();
   const { roomId } = useParams();
+  console.log(roomId);
   const dispatch = useDispatch();
 
-  const myEmail = sessionStorage.getItem("userEmail");
-  const Myname = sessionStorage.getItem("userNickname");
+  //이전채팅 불러오기 및 채팅필요데이터
+  useEffect(() => {
+    dispatch(__getChatListThunk(roomId));
+  }, [roomId]);
+
   const chatRef = useRef("");
 
   // 소켓 백엔드 서버가져오기
-  const socket = new SockJS("https://midcon.shop/ws-stomp");
+
+  const socket = new SockJS(`${process.env.REACT_APP_DOG}/ws-stomp`);
   const client = Stomp.over(socket);
 
   //토큰 얻어오기
   const headers = {
-    Authorization: sessionStorage.getItem("authorization"),
+    Authorization: sessionStorage.getItem("accessToken"),
   };
 
   const { chatcollect } = useSelector((state) => state.chatcollect);
-  console.log(chatcollect);
+  const Myname = chatcollect[0]?.informDto?.nickname;
+  const MyEmail = chatcollect[0]?.informDto?.email;
+
   const { messages } = useSelector((state) => state.messages);
 
   // 채팅 엔터키/shif+enter 막기
@@ -39,73 +46,57 @@ const ChattingDetail = () => {
   };
 
   useEffect(() => {
-    dispatch(__postChatopenThunk({}));
-  }, []);
+    let subscription;
 
-  useEffect(() => {
     // 소켓 연결
-    console.log(chatcollect.roomId);
-    if (chatcollect.roomId) {
-      console.log(chatcollect.roomId);
-      try {
-        client.connect(
-          {},
-          () => {
-            console.log(chatcollect.roomId);
-            // 채팅방 구독
-            client.subscribe(`/sub/chat/room/${chatcollect.roomId}`, (res) => {
-              console.log(res.body);
-              const receive = JSON.parse(res.body);
-              console.log(123456, receive);
-              dispatch(subMessage(receive));
+    const socket = new SockJS(`${process.env.REACT_APP_DOG}/ws-stomp`);
+    const client = Stomp.over(socket);
 
-              /* 
-               여기서 dispatch(subMessage(receive))는 Redux store의 messages state를 
-               업데이트하기 위한 action을 dispatch 하는 것입니다. 
-               subMessage는 socketSlice.js에서 생성된 Redux slice의 action creator입니다.
-               이 코드에서는 Stomp을 사용하여 WebSocket을 통해 메시지를 주고받는 채팅 기능을 
-               구현하고 있습니다. 
-               메시지를 받으면, subMessage 액션을 dispatch하여 messages state를 업데이트합니다. 
-               이후, messages state를 이용하여 UI를 업데이트합니다.
-
-               Redux store를 사용하면, state 관리를 중앙에서 처리할 수 있으며, 여러 컴포넌트에서 
-               동일한 state를 공유할 수 있습니다. 이를 통해 코드의 유지보수성과 확장성을 향상시킬 
-               수 있습니다.
-
-               따라서 dispatch(subMessage(receive))를 통해 Redux store의 messages state를 
-               업데이트하고, 이를 이용하여 UI를 업데이트하는 것이 이 코드에서 선택된 방법입니다. */
-            });
-          },
-
-          {}
-        );
-      } catch (e) {
-        console.log(e);
-      }
+    const headers = {
+      Authorization: sessionStorage.getItem("accessToken"),
+    };
+    try {
+      client.connect({}, () => {
+        console.log(roomId);
+        // 채팅방 구독
+        subscription = client.subscribe(`/sub/chat/rooms/${roomId}`, (res) => {
+          const receive = JSON.parse(res.body);
+          dispatch(subMessage(receive));
+        });
+      });
+    } catch (e) {
+      console.log(e);
     }
-  }, [chatcollect]);
+
+    return () => {
+      // 소켓 연결 종료 및 구독해제
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+      client.disconnect(() => {
+        console.log(`Disconnected from WebSocket for room ${roomId}`);
+      });
+    };
+  }, [roomId]);
 
   //메시지 보내기
   const myChat = () => {
     const message = chatRef.current.value;
-    if (message === "") {
-      return;
-    }
+
     client.send(
       `/pub/chat/message`,
       headers,
       JSON.stringify({
-        roomId: chatcollect.roomId,
-        sender: Myname, // 보내는 사용자의 이름 설정
+        roomId: roomId,
+        sender: MyEmail, // 보내는 사용자의 이름 설정
         message: message,
       })
     );
-    chatRef.current.value = null;
+    chatRef.current.value = "";
   };
-  console.log(9999, messages);
-  console.log(typeof messages);
+
   const scrollRef = useRef();
-  console.log(scrollRef);
+
   useEffect(() => {
     // 메시지 초기화시 스크롤 이동
     scrollRef.current.scrollIntoView({
@@ -114,28 +105,60 @@ const ChattingDetail = () => {
       inline: "nearest",
     });
   }, [messages]);
-  console.log(987654, messages);
 
   return (
-    <>
+    <Layout>
       <StyledChatWindow>
-        <Header>
-          <Title>Chat Room</Title>
-        </Header>
-
+        <Header />
+        <BeforeChatHistory>
+          {chatcollect[0]?.chats?.map((list, index) =>
+            list.userNickname === Myname ? (
+              <div key={index}>
+                <MessageList
+                  messageLength={list.message.length}
+                  isMine={true} // 내가 보내는 메시지
+                >
+                  <span>{list?.message}</span>
+                </MessageList>
+              </div>
+            ) : (
+              <ReceivedMessage>
+                <h4>{list?.userNickname}님</h4>
+                <MessageList
+                  messageLength={list.message.length}
+                  isMine={false} // 상대방이 보내는 메시지
+                >
+                  <span>{list?.message}</span>
+                </MessageList>
+              </ReceivedMessage>
+            )
+          )}
+        </BeforeChatHistory>
         <ChatHistory>
-          <div ref={scrollRef}>
-            {messages.map((message) => (
-              <MessageList
-                messageLength={message.message.length}
-                isMine={message.sender === Myname}
-              >
-                {/*                 // 사용자에 따라 메시지 위치 조정
-                 */}
-                <span>{message.message}</span>
-              </MessageList>
-            ))}
-          </div>
+          {roomId && (
+            <div ref={scrollRef}>
+              {messages.map((message) =>
+                message.userNickname === Myname ? (
+                  <MessageList
+                    messageLength={message.message.length}
+                    isMine={true} // 내가 보내는 메시지
+                  >
+                    <span>{message.message}</span>
+                  </MessageList>
+                ) : (
+                  <ReceivedMessage>
+                    <h4>{message.userNickname}님</h4>
+                    <MessageList
+                      messageLength={message.message.length}
+                      isMine={false} // 상대방이 보내는 메시지
+                    >
+                      <span>{message.message}</span>
+                    </MessageList>
+                  </ReceivedMessage>
+                )
+              )}
+            </div>
+          )}
         </ChatHistory>
 
         <ChatInput>
@@ -145,7 +168,7 @@ const ChattingDetail = () => {
           </form>
         </ChatInput>
       </StyledChatWindow>
-    </>
+    </Layout>
   );
 };
 
@@ -154,11 +177,10 @@ export default ChattingDetail;
 const StyledChatWindow = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #e6e6e6;
+  background-color: white;
   border-radius: 10px;
-  width: 500px;
-  height: 500px;
-  padding: 20px;
+  width: 370px;
+  height: 629px;
 `;
 
 const Header = styled.header`
@@ -166,12 +188,6 @@ const Header = styled.header`
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
 `;
 
 const MessageList = styled.div`
@@ -191,18 +207,22 @@ const MessageList = styled.div`
     padding: 10px;
     white-space: pre-wrap;
   `}
-  /* 보내는 사용자의 메시지는 오른쪽에, 수신하는 사용자의 메시지는 왼쪽에 위치 */
+
+  /* 내가 보내는 메시지 스타일 */
   ${({ isMine }) =>
     isMine
       ? `
       align-self: flex-end;
       background-color: #b2d8ff;
-     
+      color: #333;
+      margin-left: auto;
     `
       : `
+      /* 상대방이 보내는 메시지 스타일 */
       align-self: flex-start;
       background-color: #f5f5f5;
-
+      color: #333;
+      margin-right: auto;
     `}
 `;
 const ChatInput = styled.div`
@@ -227,8 +247,23 @@ const Input = styled.input`
   margin-right: 10px;
   transition: height 0.2s;
 `;
-const Message = styled.li`
-  font-size: 18px;
-  color: #333;
+
+const ReceivedMessage = styled.div`
+  display: inline-block;
+  width: 100%;
+  margin-top: 10px;
   margin-bottom: 10px;
+  text-align: left;
+  div {
+    display: flex;
+  }
+`;
+
+const BeforeChatHistory = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  height: calc(100% - 200px);
+  overflow-y: scroll;
+  padding: 10px;
 `;

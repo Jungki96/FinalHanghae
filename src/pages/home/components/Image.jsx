@@ -65,20 +65,28 @@ const StDistance = styled.div`
   font-size: small;
   display: flex;
   justify-content: center;
-  background-color: green;
+  align-items: center;
+  color: black;
+  background-color: white;
   border-radius: 10px 10px 10px 10px;
-  width: 100px;
+  width: 80px;
   height: 20px;
+  font-size: 15px;
+  font-weight: 700;
 `;
 const StNameSex = styled.div`
-  background-color: red;
+  background-color: white;
+  color: black;
   border-radius: 10px 10px 10px 10px;
-  font-size: large;
-  width: 300px;
+  padding-left: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  width: 200px;
 `;
 const StDecs = styled.div`
   font-size: small;
-  background-color: blue;
+  background-color: white;
+  color: black;
   border-radius: 10px 10px 10px 10px;
   width: 300px;
   height: 30px;

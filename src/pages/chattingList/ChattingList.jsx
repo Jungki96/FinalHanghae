@@ -10,6 +10,7 @@ const ChatList = () => {
 
   const chatList = useSelector((state) => state.chatList.chatList);
   console.log(12345, chatList);
+  console.log(12345555555555, chatList[0]?.roomId);
 
   useEffect(() => {
     dispatch(__getChatList());
@@ -23,20 +24,18 @@ const ChatList = () => {
         아랫쪽 신고 버튼을 이용해주세요.
       </StWrDiv>
       {chatList?.map((list, index) => (
-        <div
-          key={list.roomId}
-          onClick={() => {
-            navigate(`/chattingdetail/${list.roomId}`);
-          }}
-        >
-          <StDiv
-            isGray={index % 2 === 1}
-            isLast={index === chatList.length - 1}
+        <div key={list.roomId}>
+          <div
+            onClick={() => {
+              navigate(`/chattingdetail/${list.roomId}`);
+            }}
           >
-            <StMsDiv>
-              {list.nickname}님 {list.message}
-            </StMsDiv>
-          </StDiv>
+            <StDiv isGray={index % 2 === 1} isLast={index === chatList.length - 1}>
+              <StMsDiv>
+                {list?.nickname}님 {list?.message}
+              </StMsDiv>
+            </StDiv>
+          </div>
         </div>
       ))}
     </Layout>

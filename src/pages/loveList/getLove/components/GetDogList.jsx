@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import ChattingDetail from "../../../chatting/ChattingDetail";
 
 const InfiniteScroll = () => {
   const [data, setData] = useState([]);
@@ -12,11 +13,14 @@ const InfiniteScroll = () => {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const { data } = await axios.get(`${process.env.REACT_APP_DOG}/loves/received`, {
-      headers: {
-        Authorization,
-      },
-    });
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_DOG}/loves/received`,
+      {
+        headers: {
+          Authorization,
+        },
+      }
+    );
     // setData((prevData) => [...prevData, ...data]);
     setData(data);
     console.log(data);
@@ -50,10 +54,21 @@ const InfiniteScroll = () => {
   const sliceData = data.slice(0, page * 3);
 
   //chatroom 으로 가야하는지 좋아요로 가야하는지?
-  const onSubmitHandler = (dogId) => {
+  const onSubmitHandler = (id) => {
     axios.post(
-      // `${process.env.REACT_APP_DOG}/loves/accept/${id}`,
-      `${process.env.REACT_APP_DOG}/loves/accept/${dogId}`,
+      `${process.env.REACT_APP_DOG}/chat/rooms`,
+      //`${process.env.REACT_APP_DOGS}/chat/rooms`,
+      { userId: id },
+      {
+        headers: {
+          Authorization,
+        },
+      }
+    );
+  };
+  const onLoveSubmitHandler = (id) => {
+    axios.post(
+      `${process.env.REACT_APP_DOG}/loves/accept/${id}`,
       {},
       {
         headers: {
@@ -61,8 +76,13 @@ const InfiniteScroll = () => {
         },
       }
     );
-    console.log(dogId);
   };
+
+  function handleButtonClick(userId, dogId) {
+    onSubmitHandler(dogId);
+    onLoveSubmitHandler(userId);
+  }
+
   const onRejectHandler = (dogId) => {
     axios.post(
       `${process.env.REACT_APP_DOG}/loves/reject/${dogId}`,
@@ -97,7 +117,7 @@ const InfiniteScroll = () => {
                     <div>
                       <button
                         onClick={() => {
-                          onSubmitHandler(dogId);
+                          handleButtonClick(dogId, userId);
                         }}
                       >
                         수락

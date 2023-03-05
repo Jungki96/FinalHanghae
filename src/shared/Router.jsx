@@ -10,7 +10,6 @@ import ChattingList from "../pages/chattingList/ChattingList";
 import EditUser from "../pages/myPage/MyPage";
 import MyDog from "../pages/myDog/MyDog";
 import Kakao from "../pages/kakaoLogin/kakao";
-import ChatRoom from "../pages/chatting/ChatRoom";
 import WelcomePage from "../pages/welcomepage/WelcomePage";
 import ChattingDetail from "../pages/chatting/ChattingDetail";
 import EditNick from "../pages/myPage/components/eachForm/EditNick";
@@ -31,10 +30,6 @@ const Router = () => {
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/oauth/callback/kakao" element={<Kakao />} />
             <Route path="/selectpage" element={<SelectPage />} />
-            <Route path="/dogSignUp" element={<DogSignUp />} />
-            <Route path="/newaddress" element={<NewAddress />} />
-            <Route path="/chattingList" element={<ChattingList />} />
-            {/* <Route path="/home" element={<Home />} /> */}
           </>
         ) : (
           <>
@@ -47,7 +42,6 @@ const Router = () => {
             <Route path="/getLove" element={<GetLove />} />
             <Route path="/chattingList" element={<ChattingList />} />
             <Route path="/chattingdetail/:roomId" element={<ChattingDetail />} />
-            <Route path="/chatroom" element={<ChatRoom />} />
             <Route path="/mypage" element={<EditUser />} />
             <Route path="/mypage/editnick" element={<EditNick />} />
             <Route path="/mypage/editpsw" element={<EditPsw />} />

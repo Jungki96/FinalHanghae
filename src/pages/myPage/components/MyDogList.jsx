@@ -46,8 +46,9 @@ const Stdiv = styled.div`
 `;
 
 const StEditBtn = styled.button`
+  /* position: absolute; */
   position: relative;
-  width: 6vh;
+  width: 80px;
   border-radius: 10px 10px 10px 10px;
 `;
 

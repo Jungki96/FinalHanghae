@@ -124,7 +124,7 @@ const StPwBox = styled.div`
   height: 52px;
   margin-left: 57px;
   margin-top: 22px;
-  margin-bottom: 112px;
+  margin-bottom: 52px;
 `;
 const StEmText = styled.p`
   width: 100px;

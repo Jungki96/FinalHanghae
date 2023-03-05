@@ -2,15 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  chatcollect: [
-    {
-      chatRoomId: 1,
-      createdAt: "",
-      modifiedAt: "",
-      friendNickname: "",
-      message: "",
-    },
-  ],
+  chatcollect: [{}],
   error: null,
   isLoading: false,
 };
@@ -27,7 +19,7 @@ export const __postChatopenThunk = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const Request = await axios.post(
-        `${process.env.REACT_APP_DOGS}/chat/rooms`
+        `${process.env.REACT_APP_DOG}/chat/rooms`
       );
       console.log(1234, Request.data);
       return thunkAPI.fulfillWithValue(Request.data);
@@ -40,12 +32,23 @@ export const __postChatopenThunk = createAsyncThunk(
 // 전체 채팅 GET요청
 export const __getChatListThunk = createAsyncThunk(
   "GET_CHATS",
-  async (_, thunkAPI) => {
+  async (roomId, thunkAPI) => {
     try {
-      const Request = await axios.get("/chat/room");
-      return thunkAPI.fulfillWithValue(Request.data);
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.code);
+      const Authorization = sessionStorage.getItem("accessToken"); // 세션 스토리지에서 토큰 가져오기
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_DOG}/chat/rooms/${roomId}`,
+        //`${process.env.REACT_APP_DOGS}/chat/rooms/${roomId}`,
+
+        {
+          headers: {
+            Authorization,
+          },
+        }
+      );
+      console.log(12333333, data);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -80,6 +83,7 @@ export const chatSlice = createSlice({
     [__getChatListThunk.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.chatcollect = [action.payload];
+      console.log("전체게시물 가져오기123", action.payload);
     },
     [__getChatListThunk.rejected]: (state, action) => {
       state.isLoading = false;

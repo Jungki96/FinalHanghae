@@ -25,7 +25,7 @@ export const __patchAddress = createAsyncThunk(
       const Authorization = sessionStorage.getItem("accessToken");
       console.log(Authorization);
       const { data } = await axios.patch(
-        "https://midcon.shop/users/mypage",
+        `${process.env.REACT_APP_DOG}/users/mypage`,
         payload,
         {
           headers: {

@@ -42,13 +42,10 @@ function SignUp() {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
 
-    if (name === "username")
-      !regusername.test(value) ? setusernameInput("") : setusernameInput("");
+    if (name === "username") !regusername.test(value) ? setusernameInput("") : setusernameInput("");
 
     if (name === "email")
-      !regEmail.test(value)
-        ? setEmailInput("이메일 형식으로 입력해주세요.")
-        : setEmailInput("");
+      !regEmail.test(value) ? setEmailInput("이메일 형식으로 입력해주세요.") : setEmailInput("");
 
     if (name === "password")
       !regPassword.test(value)
@@ -58,18 +55,12 @@ function SignUp() {
           )
         : setPassInput("");
     if (name === "check_password")
-      password !== value
-        ? setcheckpassInput("비밀번호가 불일치합니다")
-        : setcheckpassInput("");
+      password !== value ? setcheckpassInput("비밀번호가 불일치합니다") : setcheckpassInput("");
   };
   // 회원가입 POST요청 및 공백 존재 시 경고창 생성
   const onSubmitUserHandler = (e) => {
     e.preventDefault();
-    if (
-      username.trim() === "" ||
-      email.trim() === "" ||
-      password.trim() === ""
-    ) {
+    if (username.trim() === "" || email.trim() === "" || password.trim() === "") {
       return alert("아이디랑 비밀번호를 입력해주세요!");
     }
     if (password !== check_password) {
@@ -83,6 +74,7 @@ function SignUp() {
         password,
       })
     );
+    alert("회원가입이 완료 되었습니다");
     navigate("/login");
   };
   const onSubmitUserCheckHandler = (e) => {
@@ -131,11 +123,7 @@ function SignUp() {
             {emailInput}
           </StP3>
         </StDiv>
-
-        <StDogButton onClick={onSubmitUserCheckHandler}>
-          이메일 중복확인
-        </StDogButton>
-
+        <StDogButton onClick={onSubmitUserCheckHandler}>중복확인</StDogButton>
         <StDiv>
           <StP2>비밀번호</StP2>
           <StInput
@@ -201,21 +189,22 @@ const TopBox = styled.div`
 `;
 
 const StDogButton = styled.button`
+  position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  color: #ffffff;
-  width: 257px;
-  height: 46px;
-  margin-left: 12px;
+  color: black;
+  width: 70px;
+  height: 21px;
+  margin-left: 200px;
+  margin-top: -287px;
   top: 700px;
-  font-size: 16px;
-  /* Main/main */
+  font-size: 10px;
   font-weight: 600;
-  background: #2f58ac;
+  background: #d9d9d9;
   border-radius: 60px;
-  margin-bottom: 22px;
+  border: transparent;
 `;
 const StLdButton = styled.button`
   display: flex;

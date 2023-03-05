@@ -22,7 +22,7 @@ export const __postLogin = createAsyncThunk("login", async (payload, thunkAPI) =
   try {
     const res = await axios.post(
       `${process.env.REACT_APP_DOG}/users/login`,
-      // "http://54.85.166.118/users/login",
+      // `${process.env.REACT_APP_DOGS}/users/login`,
       payload
     );
 
@@ -44,7 +44,7 @@ export const __postLogin = createAsyncThunk("login", async (payload, thunkAPI) =
 export const __postUser = createAsyncThunk("signup", async (payload, thunkAPI) => {
   try {
     console.log(payload);
-    const { data } = await axios.post("https://midcon.shop/users/signup", payload);
+    const { data } = await axios.post(`${process.env.REACT_APP_DOG}/users/signup`, payload);
     return thunkAPI.fulfillWithValue(data);
   } catch (error) {
     if (400 < error.status < 500) {
@@ -56,7 +56,7 @@ export const __postUser = createAsyncThunk("signup", async (payload, thunkAPI) =
 //이메일 중복체크
 export const __checkId = createAsyncThunk("account/checkId", async (payload, thunkAPI) => {
   try {
-    const { data } = await axios.post("https://midcon.shop/users/dupcheck", payload, {
+    const { data } = await axios.post(`${process.env.REACT_APP_DOG}/users/dupcheck`, payload, {
       withCredentials: true,
     });
     console.log(data);

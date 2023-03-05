@@ -11,42 +11,51 @@ const initialState = {
 
 //채팅룸 목록 보기
 
-export const __getChatList = createAsyncThunk("getChatList", async (_, thunkAPI) => {
-  try {
-    const Authorization = sessionStorage.getItem("accessToken"); // 세션 스토리지에서 토큰 가져오기
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_DOG}/chat/rooms`,
-      // `http://localhost:3000/chatList`,
-      {
-        headers: {
-          Authorization,
-        },
-      }
-    );
-    console.log(123, data);
-    return thunkAPI.fulfillWithValue(data);
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+export const __getChatList = createAsyncThunk(
+  "getChatList",
+  async (_, thunkAPI) => {
+    try {
+      const Authorization = sessionStorage.getItem("accessToken"); // 세션 스토리지에서 토큰 가져오기
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_DOG}/chat/rooms`,
+        //`${process.env.REACT_APP_DOGS}/chat/rooms`,
+        {
+          headers: {
+            Authorization,
+          },
+        }
+      );
+      console.log(123456789, data);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
-export const __deleteTodo = createAsyncThunk("delete_todo", async (id, thunkAPI) => {
-  try {
-    axios.delete(`http://localhost:3000/todos/${id}`);
-    return;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+export const __deleteTodo = createAsyncThunk(
+  "delete_todo",
+  async (id, thunkAPI) => {
+    try {
+      axios.delete(`http://localhost:3000/todos/${id}`);
+      return;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
-export const __updateTodo = createAsyncThunk("update_todo", async (id, thunkAPI) => {
-  try {
-    axios.patch(`http://localhost:3000/todos/${id}`);
-    return;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+export const __updateTodo = createAsyncThunk(
+  "update_todo",
+  async (id, thunkAPI) => {
+    try {
+      axios.patch(`http://localhost:3000/todos/${id}`);
+      return;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
 export const chatListSlice = createSlice({
   name: "chatList",
@@ -72,7 +81,9 @@ export const chatListSlice = createSlice({
     },
 
     [__deleteTodo.fulfilled]: (state, action) => {
-      const target = state.todos.findIndex((body) => body.id === action.payload);
+      const target = state.todos.findIndex(
+        (body) => body.id === action.payload
+      );
 
       state.todos.splice(target, 1);
     },

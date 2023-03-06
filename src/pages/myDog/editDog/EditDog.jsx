@@ -17,7 +17,7 @@ const EditDog = ({ dog, images, onChangeTrue }) => {
       },
     });
     alert("수정이 완료되었습니다.");
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (
@@ -124,7 +124,9 @@ const EditDog = ({ dog, images, onChangeTrue }) => {
         />
         {/* <Space /> */}
         <StBtnGroup>
-          <StButton onClick={onChangeTrue}>취소하기</StButton>
+          <StButton2 className="cancel" onClick={onChangeTrue}>
+            취소하기
+          </StButton2>
           <StButton onClick={() => onEditData(editData)}>수정완료</StButton>
         </StBtnGroup>
       </Stform>
@@ -138,12 +140,14 @@ const Stform = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: #2f58ac;
 `;
 
 const StBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 14px;
   width: 80px;
   height: 25px;
   margin-top: 10px;
@@ -166,10 +170,10 @@ const StPeople = styled.div`
 
 const StName = styled.input`
   font-size: large;
-  color: black;
+  color: #2f58ac;
   text-align: center;
   margin-bottom: 10px;
-  border: 1px solid gray;
+  border: 2px solid #2f58ac;
   border-top-style: none;
   border-left-style: none;
   border-right-style: none;
@@ -177,13 +181,14 @@ const StName = styled.input`
   width: 100px;
 `;
 const StDesc = styled.input`
-  font-size: large;
-  color: black;
+  font-size: 16px;
+  color: #2f58ac;
   text-align: center;
   margin-bottom: 10px;
-  border: 1px solid gray;
+  border: 2px solid #2f58ac;
   border-radius: 10px 10px 10px 10px;
-  width: 100px;
+  width: 250px;
+  height: 60px;
 `;
 
 const StButton = styled.div`
@@ -200,6 +205,20 @@ const StButton = styled.div`
   border-radius: 20px;
   cursor: pointer;
 `;
+const StButton2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 30px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  color: white;
+  background: #8e8e93;
+  border: 1px solid white;
+  border-radius: 20px;
+  cursor: pointer;
+`;
 
 const Space = styled.div`
   height: 20px;
@@ -207,8 +226,9 @@ const Space = styled.div`
 
 const StBtnGroup = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  width: 250px;
 `;
 
 const StImg = styled.img`

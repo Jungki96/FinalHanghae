@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import Profile from "../../Profile";
 
 const GiveDogList = () => {
   const [dogs, setDogs] = useState([]);
@@ -18,6 +19,7 @@ const GiveDogList = () => {
       },
     });
     setDogs(data);
+    console.log(data);
     setLoading(false);
     setHasMore(data.length !== 0);
     if (data.length !== 0) {
@@ -45,33 +47,28 @@ const GiveDogList = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const sliceData = dogs.slice(0, page * 2);
+  //좋아요 모달
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const showModal = () => {
+    setModalOpen(true);
+  };
 
   return (
     <Container>
       <StOnePage>
-        {sliceData.map((notuse, id) => {
-          if (id % 2 === 0) {
-            const group = sliceData.slice(id, id + 2);
-            return (
-              <OneDog key={id}>
-                {group.map(({ userId, dogName, dogSex, imageUrl }) => (
-                  <Stgroup key={userId}>
-                    <StDog style={{ backgroundImage: `url(${imageUrl})` }}>
-                      {dogSex === "female" ? (
-                        <StName> {dogName} (여)</StName>
-                      ) : (
-                        <StName> {dogName} (남)</StName>
-                      )}
-                    </StDog>
-                    <Space />
-                  </Stgroup>
-                ))}
-              </OneDog>
-            );
-          }
-          return null;
-        })}
+        <OneDog>
+          {dogs.map(({ userId, dogName, dogSex, imageUrl }) => (
+            <Stgroup key={userId}>
+              <StDog style={{ backgroundImage: `url(${imageUrl})` }} />
+              {dogSex === "female" ? <StName> {dogName}</StName> : <StName> {dogName}</StName>}
+              <StProfile onClick={showModal}>프로필</StProfile>
+              {modalOpen && (
+                <Profile dogId={dogs.dogId} dogName={dogs.dogName} setModalOpen={setModalOpen} />
+              )}
+            </Stgroup>
+          ))}
+        </OneDog>
         <div ref={observer} />
       </StOnePage>
     </Container>
@@ -82,47 +79,51 @@ export default GiveDogList;
 const Container = styled.div`
   margin-top: 30px;
 `;
+const StOnePage = styled.div``;
 
+const OneDog = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 20px;
+`;
 const Stgroup = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const StOnePage = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
-`;
-
 const StDog = styled.div`
-  position: relative;
-  width: 100px;
-  height: 100px;
+  width: 30px;
+  height: 30px;
   padding: 10px;
   margin: 10px 10px 10px 10px;
-  border-radius: 20px;
+  border-radius: 30px;
   background-size: cover;
   background-position: center;
-  box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3); */
 `;
 
 const StName = styled.h3`
-  position: absolute;
-  font-size: medium;
-  bottom: 30px;
-  background-color: black;
-  color: #ffffff;
+  width: 180px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: black;
 `;
 
-const OneDog = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 375px;
-`;
-const Space = styled.div`
-  margin-top: -15vh;
-  display: flex;
-  z-index: 1;
+const StProfile = styled.button`
+  width: 80px;
+  height: 30px;
+  font-weight: 700;
+  background-color: transparent;
+  /* border-radius: 4px; */
+  border: 2px solid gray;
+  cursor: pointer;
+  &:hover {
+    background-color: #eea400;
+    transition: 0.2s;
+    color: white;
+  }
 `;

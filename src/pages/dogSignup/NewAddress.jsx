@@ -18,7 +18,7 @@ const NewAddress = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   //위도,경도,주소
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(null);
   const [latitude, setLatitude] = useState("37.537187");
   const [longitude, setLongitude] = useState("127.005476");
 

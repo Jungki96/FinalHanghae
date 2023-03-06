@@ -140,14 +140,15 @@ const StName = styled.h3`
 `;
 
 const StDesc = styled.div`
-  font-size: large;
+  padding-top: 4px;
+  font-size: 16px;
   color: black;
   text-align: center;
   margin-bottom: 10px;
   border: 1px solid gray;
   border-radius: 10px 10px 10px 10px;
-  width: 200px;
-  height: 50px;
+  width: 250px;
+  height: 60px;
 `;
 
 const StButton = styled.div`

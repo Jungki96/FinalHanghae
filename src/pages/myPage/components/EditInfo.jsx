@@ -1,32 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import EditIcon from "@mui/icons-material/Edit";
-import LockIcon from "@mui/icons-material/Lock";
-import EditLocationIcon from "@mui/icons-material/EditLocation";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Edit from "../../../assets/img/edit.png";
+import Lock from "../../../assets/img/lock.png";
+import Map from "../../../assets/img/map-pin.png";
+import Plus from "../../../assets/img/plus-circle.png";
 
-const EditInfo = () => {
+const EditInfo = ({ user }) => {
   const navigate = useNavigate();
+  const dog = user?.myDogs[0].dogId;
+  console.log(user?.myDogs[0].dogId);
 
   return (
     <>
       <StForm>
-        <StOneInfoWhite onClick={() => navigate("/mypage/editnick")}>
-          <EditIcon />
-          닉네임 변경하기
-        </StOneInfoWhite>
-        <StOneInfoBlack onClick={() => navigate("/mypage/editpsw")}>
-          <LockIcon />
+        <StOneInfo onClick={() => navigate("/mypage/editnick")}>
+          <Stimg src={Edit} />
+          사용자 이름 변경
+        </StOneInfo>
+        <StOneInfo onClick={() => navigate("/mypage/editpsw")}>
+          <Stimg src={Lock} />
           비밀번호 변경
-        </StOneInfoBlack>
-        <StOneInfoWhite onClick={() => navigate("/newaddress")}>
-          <EditLocationIcon />
-          주소변경하기
-        </StOneInfoWhite>
+        </StOneInfo>
+        <StOneInfo onClick={() => navigate("/newaddress")}>
+          <Stimg src={Map} />
+          주소 변경
+        </StOneInfo>
+        <StOneInfo onClick={() => navigate(`/myDog/${dog}`)}>
+          <Stimg src={Plus} />
+          강아지 개별설정
+        </StOneInfo>
         {/* 보류 */}
         {/* <StOneInfoBlack onClick={() => navigate("/mypage/adddog")}>
-          <AddCircleIcon />
+          <img src={Plus} />
           강아지 추가하기
         </StOneInfoBlack> */}
       </StForm>
@@ -45,20 +51,17 @@ const StForm = styled.form`
   align-items: center;
 `;
 
-const StOneInfoWhite = styled.div`
+const StOneInfo = styled.div`
   width: 300px;
-  height: 50px;
+  height: 60px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #eaeef6;
+  /* justify-content: center; */
+  border-bottom: 1px solid gray;
+  padding-bottom: 5px;
+  cursor: pointer;
 `;
 
-const StOneInfoBlack = styled.div`
-  width: 300px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #aabcdd;
+const Stimg = styled.img`
+  margin-right: 10px;
 `;

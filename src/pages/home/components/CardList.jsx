@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import IconButton from "@material-ui/core/IconButton";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ClearIcon from "@mui/icons-material/Clear";
 import Image from "./Image";
+import YES from "../../../assets/img/YES.png";
+import NO from "../../../assets/img/NO.png";
+import ModalBasic from "./ModalBasic";
 
 const CardList = () => {
   const Authorization = sessionStorage.getItem("accessToken");
@@ -22,9 +22,16 @@ const CardList = () => {
     });
     setDogs(data);
     setMainImage(data.images);
-    console.log(dogs);
   };
 
+  //좋아요 모달
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const showModal = () => {
+    setModalOpen(true);
+  };
+
+  // 수락하기
   const handleFavoriteClick = () => {
     axios.post(
       `${process.env.REACT_APP_DOG}/match/love/${dogs.dogId}`,
@@ -36,9 +43,7 @@ const CardList = () => {
       }
     );
     alert("좋아요를 눌렀습니다.");
-    console.log(dogs);
-    console.log(Authorization);
-    // window.location.reload();
+    window.location.reload();
   };
   //싫어요 클릭
   const handleHateClick = () => {
@@ -52,7 +57,7 @@ const CardList = () => {
       }
     );
     alert("싫어요를 눌렀습니다.");
-    // window.location.reload();
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -61,18 +66,13 @@ const CardList = () => {
 
   return (
     <Container>
+      {modalOpen && (
+        <ModalBasic dogId={dogs.dogId} dogName={dogs.dogName} setModalOpen={setModalOpen} />
+      )}
       <Image key={dogs.dogId} images={mainImage} data={dogs} />
       <StBtnGroup>
-        <STCircleBorder>
-          <IconButton onClick={() => handleFavoriteClick()}>
-            <FavoriteBorderIcon className="icon" />
-          </IconButton>
-        </STCircleBorder>
-        <div className="circleBorder">
-          <IconButton onClick={() => handleHateClick()}>
-            <ClearIcon className="icon" />
-          </IconButton>
-        </div>
+        <StImg src={YES} onClick={showModal}></StImg>
+        <StImg src={NO} onClick={() => handleHateClick()}></StImg>
       </StBtnGroup>
     </Container>
   );
@@ -81,6 +81,10 @@ export default CardList;
 
 const Container = styled.div`
   height: 605px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 20px;
 `;
 
 const StBtnGroup = styled.div`
@@ -89,6 +93,11 @@ const StBtnGroup = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
-const STCircleBorder = styled.div`
-  margin-right: 80px;
+
+const StImg = styled.img`
+  border-radius: 30px;
+  background-color: black;
+  cursor: pointer;
+  margin-left: 30px;
+  margin-right: 30px;
 `;

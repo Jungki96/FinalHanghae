@@ -8,16 +8,16 @@ const GiveLove = () => {
   const navigate = useNavigate();
 
   return (
-    <Layout>
+    <Layout title="좋아요 리스트">
       <StSelects>
         <OneSelect>내가 보낸</OneSelect>
-        <div
+        <StOther
           onClick={() => {
             navigate("/getLove");
           }}
         >
           내가 받은
-        </div>
+        </StOther>
       </StSelects>
       <GiveDogList />
     </Layout>
@@ -34,4 +34,14 @@ const StSelects = styled.div`
 const OneSelect = styled.div`
   text-decoration: underline;
   text-underline-offset: 10px;
+`;
+const StOther = styled.div`
+  text-decoration: transparent;
+  text-underline-offset: 10px;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 10px;
+    transition: 0.5s;
+  }
 `;

@@ -31,6 +31,7 @@ const StHeader = styled.div`
   margin-top: 24px;
 `;
 const StImg = styled.img`
+  cursor: pointer;
   width: 24px;
   height: 24px;
 `;

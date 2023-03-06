@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SockJS from "sockjs-client";
 import styled from "styled-components";
 import { subMessage } from "../../redux/modules/socketSlice";
 import Stomp from "stompjs";
-import { __getChatListThunk, __postChatopenThunk } from "../../redux/modules/chattingSlice";
+import {
+  __getChatListThunk,
+  __postChatopenThunk,
+} from "../../redux/modules/chattingSlice";
 import Layout from "../../components/Layout";
 
 const ChattingDetail = () => {
@@ -80,6 +83,7 @@ const ChattingDetail = () => {
   }, [roomId]);
 
   //메시지 보내기
+  //여기에 있는 값을 모아야합니다 / 정기
   const myChat = () => {
     const message = chatRef.current.value;
 
@@ -110,57 +114,66 @@ const ChattingDetail = () => {
     <Layout>
       <StyledChatWindow>
         <Header />
-        <BeforeChatHistory>
-          {chatcollect[0]?.chats?.map((list, index) =>
-            list.userNickname === Myname ? (
-              <div key={index}>
-                <MessageList
-                  messageLength={list.message.length}
-                  isMine={true} // 내가 보내는 메시지
-                >
-                  <span>{list?.message}</span>
-                </MessageList>
-              </div>
-            ) : (
-              <ReceivedMessage>
-                <h4>{list?.userNickname}님</h4>
-                <MessageList
-                  messageLength={list.message.length}
-                  isMine={false} // 상대방이 보내는 메시지
-                >
-                  <span>{list?.message}</span>
-                </MessageList>
-              </ReceivedMessage>
-            )
-          )}
-        </BeforeChatHistory>
-        <ChatHistory>
-          {roomId && (
-            <div ref={scrollRef}>
-              {messages.map((message) =>
-                message.userNickname === Myname ? (
+        <div>
+          <BeforeChatHistory>
+            {chatcollect[0]?.chats?.map((list, index) =>
+              list.userNickname === Myname ? (
+                <div key={index}>
                   <MessageList
-                    messageLength={message.message.length}
+                    messageLength={list.message.length}
                     isMine={true} // 내가 보내는 메시지
                   >
-                    <span>{message.message}</span>
+                    <span>{list?.message}</span>
                   </MessageList>
-                ) : (
-                  <ReceivedMessage>
-                    <h4>{message.userNickname}님</h4>
-                    <MessageList
-                      messageLength={message.message.length}
-                      isMine={false} // 상대방이 보내는 메시지
-                    >
-                      <span>{message.message}</span>
-                    </MessageList>
-                  </ReceivedMessage>
-                )
-              )}
-            </div>
-          )}
-        </ChatHistory>
-
+                </div>
+              ) : (
+                <ReceivedMessage>
+                  <h4>{list?.userNickname}</h4>
+                  <MessageList
+                    messageLength={list.message.length}
+                    isMine={false} // 상대방이 보내는 메시지
+                  >
+                    <span>{list?.message}</span>
+                  </MessageList>
+                </ReceivedMessage>
+              )
+            )}
+          </BeforeChatHistory>
+          <ChatHistory>
+            {roomId && (
+              <div ref={scrollRef}>
+                {messages
+                  .filter((message) => message.roomId === roomId) // 해당 방의 메시지만 필터링
+                  .map((message) => {
+                    if (message.roomId === roomId) {
+                      // roomId와 메시지의 roomId가 일치하는 경우에만 메시지 렌더링
+                      return message.userNickname === Myname ? (
+                        <MessageList
+                          key={message.id}
+                          messageLength={message.message.length}
+                          isMine={true} // 내가 보내는 메시지
+                        >
+                          <span>{message.message}</span>
+                        </MessageList>
+                      ) : (
+                        <ReceivedMessage key={message.id}>
+                          <h4>{message.userNickname}님</h4>
+                          <MessageList
+                            messageLength={message.message.length}
+                            isMine={false} // 상대방이 보내는 메시지
+                          >
+                            <span>{message.message}</span>
+                          </MessageList>
+                        </ReceivedMessage>
+                      );
+                    }
+                    return null;
+                  })}
+                <div ref={scrollRef} />
+              </div>
+            )}
+          </ChatHistory>
+        </div>
         <ChatInput>
           <form onSubmit={(e) => e.preventDefault()}>
             <Input type="text" ref={chatRef} onKeyDown={handleEnterPress} />
@@ -179,8 +192,8 @@ const StyledChatWindow = styled.div`
   flex-direction: column;
   background-color: white;
   border-radius: 10px;
-  width: 370px;
-  height: 629px;
+  width: 355px;
+  max-height: 620px;
 `;
 
 const Header = styled.header`
@@ -261,9 +274,10 @@ const ReceivedMessage = styled.div`
 
 const BeforeChatHistory = styled.div`
   display: flex;
-  width: 100%;
+  width: 300px;
+  max-height: 6000px;
   flex-direction: column;
-  height: calc(100% - 200px);
-  overflow-y: scroll;
+  /* height: calc(100% - 200px); */
+  /* overflow-y: scroll; */
   padding: 10px;
 `;

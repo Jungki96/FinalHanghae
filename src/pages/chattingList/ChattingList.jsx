@@ -32,7 +32,7 @@ const ChatList = () => {
           >
             <StDiv isGray={index % 2 === 1} isLast={index === chatList.length - 1}>
               <StMsDiv>
-                {list?.nickname}님 {list?.message}
+                {list?.nickname} {list?.message}
               </StMsDiv>
             </StDiv>
           </div>

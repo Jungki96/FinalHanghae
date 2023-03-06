@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import ChattingDetail from "../../../chatting/ChattingDetail";
+import Like from "../../../../assets/img/LoveLike.png";
+import Reject from "../../../../assets/img/LoveReject.png";
 
 const InfiniteScroll = () => {
   const [data, setData] = useState([]);
@@ -13,17 +14,13 @@ const InfiniteScroll = () => {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_DOG}/loves/received`,
-      {
-        headers: {
-          Authorization,
-        },
-      }
-    );
+    const { data } = await axios.get(`${process.env.REACT_APP_DOG}/loves/received`, {
+      headers: {
+        Authorization,
+      },
+    });
     // setData((prevData) => [...prevData, ...data]);
     setData(data);
-    console.log(data);
     setLoading(false);
     setHasMore(data.length !== 0);
     if (data.length !== 0) {
@@ -50,8 +47,6 @@ const InfiniteScroll = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
-
-  const sliceData = data.slice(0, page * 3);
 
   //chatroom 으로 가야하는지 좋아요로 가야하는지?
   const onSubmitHandler = (id) => {
@@ -96,47 +91,34 @@ const InfiniteScroll = () => {
     console.log(dogId);
   };
 
+  const onWatchProfile = (userId) => {};
   return (
     <Container>
       <StOnePage>
-        {sliceData.map((why, id) => {
-          if (id % 2 === 0) {
-            const group = sliceData.slice(id, id + 2);
-            return (
-              <OneDog key={id}>
-                {group.map(({ imageUrl, dogName, userId, dogSex, dogId }) => (
-                  <Stgroup key={userId}>
-                    <StDog style={{ backgroundImage: `url(${imageUrl})` }}>
-                      {dogSex === "female" ? (
-                        <StName> {dogName} (여)</StName>
-                      ) : (
-                        <StName> {dogName} (남)</StName>
-                      )}
-                    </StDog>
-                    <br />
-                    <div>
-                      <button
-                        onClick={() => {
-                          handleButtonClick(dogId, userId);
-                        }}
-                      >
-                        수락
-                      </button>
-                      <button
-                        onClick={() => {
-                          onRejectHandler(dogId);
-                        }}
-                      >
-                        거절
-                      </button>
-                    </div>
-                  </Stgroup>
-                ))}
-              </OneDog>
-            );
-          }
-          return null;
-        })}
+        <OneDog>
+          {data.map(({ imageUrl, dogName, userId, dogSex, dogId }) => (
+            <Stgroup key={userId}>
+              <StDog style={{ backgroundImage: `url(${imageUrl})` }}></StDog>
+              {dogSex === "female" ? <StName> {dogName}</StName> : <StName> {dogName}</StName>}
+              <StBtnGroup>
+                <StProfile onClick={() => onWatchProfile(userId)}>프로필</StProfile>
+                <StBtn
+                  src={Like}
+                  onClick={() => {
+                    handleButtonClick(dogId, userId);
+                  }}
+                />
+                <StBtn
+                  src={Reject}
+                  onClick={() => {
+                    onRejectHandler(dogId);
+                  }}
+                />
+              </StBtnGroup>
+            </Stgroup>
+          ))}
+        </OneDog>
+
         <div ref={observer} />
       </StOnePage>
     </Container>
@@ -148,43 +130,68 @@ export default InfiniteScroll;
 const Container = styled.div`
   margin-top: 30px;
 `;
+const StOnePage = styled.div``;
 
-const StOnePage = styled.div`
+const OneDog = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
+  justify-content: center;
+  margin-left: 20px;
 `;
-
 const Stgroup = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
 `;
 
 const StDog = styled.div`
-  position: relative;
-  width: 100px;
-  height: 100px;
+  width: 30px;
+  height: 30px;
   padding: 10px;
   margin: 10px 10px 10px 10px;
-  border-radius: 20px;
+  border-radius: 30px;
   background-size: cover;
   background-position: center;
-  box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3); */
 `;
 
 const StName = styled.h3`
-  position: absolute;
-  font-size: medium;
-  bottom: 30px;
-  background-color: black;
-  color: #ffffff;
+  width: 100px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: black;
 `;
 
-const OneDog = styled.div`
+const StBtnGroup = styled.div`
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 375px;
+  align-items: center;
+`;
+
+const StProfile = styled.button`
+  width: 80px;
+  height: 30px;
+  background-color: transparent;
+  font-weight: 700;
+  /* border-radius: 4px; */
+  border: 2px solid gray;
+  cursor: pointer;
+  &:hover {
+    background-color: #eea400;
+    transition: 0.2s;
+    color: white;
+  }
+`;
+const StBtn = styled.img`
+  width: 30px;
+  height: 30px;
+  font-weight: 700;
+  margin-left: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: #e1e1e1;
+    transition: 0.2s;
+    color: white;
+  }
 `;

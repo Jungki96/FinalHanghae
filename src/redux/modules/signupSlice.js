@@ -36,7 +36,7 @@ export const __postDog = createAsyncThunk(
       var config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: `${process.env.REACT_APP_DOG}`,
+        url: `${process.env.REACT_APP_DOG}/dogs`,
         headers: {
           Authorization: Authorization,
           "Content-Type": "multipart/form-data",

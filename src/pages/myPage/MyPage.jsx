@@ -28,13 +28,13 @@ const EditUser = () => {
   return (
     <Layout title="설정">
       <Container>
-        <br />
-        <div>
-          <div style={{ fontSize: "20px", fontWeight: "bold" }}>안녕하세요 {user?.username}님!</div>
-          <br />
-          <div>주소:{user?.address.split(" ").slice(0, 3).join(" ")}</div>
-          <div style={{ fontSize: "15px" }}>{user?.email}</div>
-        </div>
+        <StTopGroup>
+          <div className="div" style={{ fontSize: "20px", fontWeight: "bold" }}>
+            안녕하세요 {user?.username}님!
+          </div>
+          <div className="address">{user?.address.split(" ").slice(0, 3).join(" ")}</div>
+          <div className="address">{user?.email}</div>
+        </StTopGroup>
         <StImgGroup>
           {dogs.map((dog) => (
             <MyDogList key={dog.dogId} dog={dog} />
@@ -58,9 +58,21 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const StTopGroup = styled.div`
+  margin-top: 20px;
+  margin-left: -140px;
+  .div {
+    margin-bottom: 20px;
+  }
+  .address {
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+`;
+
 const StImgGroup = styled.div`
-  padding-top: 5vh;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 40px;
   display: flex;
   justify-content: center;
 `;

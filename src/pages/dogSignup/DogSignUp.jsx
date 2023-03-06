@@ -22,7 +22,6 @@ function SignUpForm() {
   const navigate = useNavigate();
 
   // 버튼 활성화를 위한 상태관리
-  const [formstate, setFormState] = useState(false);
   const [dogSexState, setDogSexState] = useState(false);
   const [dogImagesState, setDogImagesState] = useState(false);
   const [dogDetailsState, setDogDetailsState] = useState(false);
@@ -41,8 +40,8 @@ function SignUpForm() {
   // 파일 업로드를 위한 상태관리
   const [imageSrcs, setImageSrcs] = useState([]);
   const [imageSrcsText, setImageSrcsText] = useState([]);
-  const [imageSrcs2, setImageSrcs2] = useState([]);
-  const [imageSrcsText2, setImageSrcsText2] = useState([]);
+  const [imageSrcs1, setImageSrcs1] = useState([]);
+  const [imageSrcsText1, setImageSrcsText1] = useState([]);
 
   //next 버튼 조건
   const next = (e) => {
@@ -94,9 +93,26 @@ function SignUpForm() {
       values.forEach((value) => {
         imageTemp = [...imageTemp, value];
       });
-      setImageSrcsText(imageTemp.splice(0, 1));
+      setImageSrcsText(imageTemp);
     });
-    setImageSrcs(imageSrcTemp.splice(0, 1));
+    setImageSrcs(imageSrcTemp);
+  };
+
+  const handleChangeFile1 = (event) => {
+    let imageSrcTemp = imageSrcs;
+    let readers = [];
+    for (let i = 0; i < event.target.files.length; i++) {
+      readers.push(readFileAsText(event.target.files[i]));
+      imageSrcTemp.push(event.target.files[i]);
+    }
+    Promise.all(readers).then((values) => {
+      let imageTemp = imageSrcsText1;
+      values.forEach((value) => {
+        imageTemp = [...imageTemp, value];
+      });
+      setImageSrcsText1(imageTemp);
+    });
+    setImageSrcs1(imageSrcTemp);
   };
 
   const readFileAsText = (fileBlob) => {
@@ -212,21 +228,38 @@ function SignUpForm() {
           <StNum> ({signNumber + 1}/5)</StNum>
           <DogSignUpImage />
           <div>
-            <div>
-              {(imageSrcsText || []).map((url) => (
-                <ImagePreview src={url} alt="..." />
-              ))}
-            </div>
-            <InputContainer hasImage={imageSrcs.length > 0}>
-              <input
-                required
-                type="file"
-                accept="image/jpeg, image/jpg, image/png"
-                onChange={handleChangeFile}
-                multiple
-              />
-              <StImg1 src={plusbutton} />
-            </InputContainer>
+            <StDivImg>
+              <div>
+                {(imageSrcsText || []).map((url) => (
+                  <ImagePreview src={url} alt="..." />
+                ))}
+              </div>
+              <InputContainer hasImage={imageSrcs.length > 0}>
+                <input
+                  required
+                  type="file"
+                  accept="image/jpeg, image/jpg, image/png"
+                  onChange={handleChangeFile}
+                  multiple
+                />
+                <StImg1 src={plusbutton} />
+              </InputContainer>
+              <div>
+                {(imageSrcsText1 || []).map((url) => (
+                  <ImagePreview src={url} alt="..." />
+                ))}
+              </div>
+              <InputContainer hasImage={imageSrcs1.length > 0}>
+                <input
+                  required
+                  type="file"
+                  accept="image/jpeg, image/jpg, image/png"
+                  onChange={handleChangeFile1}
+                  multiple
+                />
+                <StImg1 src={plusbutton} />
+              </InputContainer>
+            </StDivImg>
           </div>
 
           <StBtnDiv>
@@ -285,6 +318,10 @@ const StDiv5 = styled.div`
 const StDiv6 = styled.div`
   margin-left: 118px;
 `;
+const StDivImg = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 const ImagePreview = styled.img`
   width: 118px;
@@ -302,8 +339,9 @@ const InputContainer = styled.div`
   border-radius: 5px;
   overflow: hidden;
   display: flex;
+  margin-right: 15px;
   justify-content: center;
-  margin-left: 1px;
+  margin-left: 15px;
   border-radius: 25px;
   align-items: center;
   display: ${(props) => (props.hasImage ? "none" : "flex")};

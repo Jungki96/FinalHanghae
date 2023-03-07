@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Like from "../../../../assets/img/LoveLike.png";
 import Reject from "../../../../assets/img/LoveReject.png";
+import Profile from "../../Profile";
 
 const InfiniteScroll = () => {
   const [data, setData] = useState([]);
@@ -88,7 +89,15 @@ const InfiniteScroll = () => {
         },
       }
     );
-    console.log(dogId);
+  };
+
+  //좋아요 모달
+  const [modalOpen, setModalOpen] = useState(false);
+  const [myDogId, setMyDogId] = useState(0);
+
+  const showModal = (dogId) => {
+    setModalOpen(true);
+    setMyDogId(dogId);
   };
 
   const onWatchProfile = (userId) => {};
@@ -101,7 +110,7 @@ const InfiniteScroll = () => {
               <StDog style={{ backgroundImage: `url(${imageUrl})` }}></StDog>
               {dogSex === "female" ? <StName> {dogName}</StName> : <StName> {dogName}</StName>}
               <StBtnGroup>
-                <StProfile onClick={() => onWatchProfile(userId)}>프로필</StProfile>
+                <StProfile onClick={() => showModal(dogId)}>프로필</StProfile>
                 <StBtn
                   src={Like}
                   onClick={() => {
@@ -115,6 +124,8 @@ const InfiniteScroll = () => {
                   }}
                 />
               </StBtnGroup>
+              <div ref={observer} />
+              {modalOpen && <Profile myDogId={myDogId} setModalOpen={setModalOpen} />}
             </Stgroup>
           ))}
         </OneDog>

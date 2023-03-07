@@ -5,14 +5,13 @@ import axios from "axios";
 import male from "../../assets/img/male.PNG";
 import female from "../../assets/img/female.PNG";
 
-const Profile = ({ setModalOpen, dogId, dogName, content, writer }) => {
+const Profile = ({ setModalOpen, myDogId }) => {
   const Authorization = sessionStorage.getItem("accessToken");
-  const { id } = useParams();
   const [dog, setDog] = useState({});
   const [images, setImages] = useState([]);
 
   const fetchList = async () => {
-    const { data } = await axios.get(`${process.env.REACT_APP_DOG}/dogs/${id}`, {
+    const { data } = await axios.get(`${process.env.REACT_APP_DOG}/dogs/${myDogId}`, {
       headers: {
         Authorization,
       },
@@ -36,18 +35,18 @@ const Profile = ({ setModalOpen, dogId, dogName, content, writer }) => {
           <StBox>이름</StBox>
           <StName>{dog.dogName}</StName>
           <StBox>성별</StBox>
-          {dog.dogSex === "male" ? <StImg src={male} /> : <StImg src={female} />}
+          {dog.dogSex === "Male" ? <StImg src={male} /> : <StImg src={female} />}
           <StBox>사진</StBox>
-          <div>
-            {images.map((image) => (
-              <div key={image.id}>
-                <StPeople style={{ backgroundImage: `url(${image.imageUrl})` }} />
+          <StImgGroup>
+            {images?.map((e) => (
+              <div key={e.id}>
+                <StPeople style={{ backgroundImage: `url(${e.imageUrl})` }} />
               </div>
             ))}
-          </div>
+          </StImgGroup>
           <StBox>설명</StBox>
           <StDesc>{dog.dogDetails}</StDesc>
-          <StButton onClick={closeModal}>좀 더 볼게요.</StButton>
+          <StButton onClick={closeModal}>확인</StButton>
         </StBefore>
       </Container>
     </BackGround>
@@ -70,7 +69,7 @@ const Container = styled.div`
   align-items: center;
   /* 모달창 크기 */
   width: 300px;
-  height: 500px;
+  height: 600px;
   /* 최상단 위치 */
   z-index: 999;
   /* 중앙 배치 */
@@ -83,6 +82,7 @@ const Container = styled.div`
   background-color: white;
   border: 1px solid black;
   border-radius: 12px;
+  color: #2f58ac;
 `;
 const StBefore = styled.div`
   display: flex;
@@ -95,47 +95,52 @@ const StBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 30px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  font-size: 14px;
+  width: 80px;
+  height: 25px;
+  margin-top: 10px;
+  margin-bottom: 7px;
   background: #ffffff;
   border: 1px solid #4269b4;
   border-radius: 20px;
 `;
 
+const StImgGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const StPeople = styled.div`
   position: relative;
-  width: 60px;
-  padding: 30px;
-  height: 80px;
+  margin: 5px;
+  width: 70px;
+  height: 100px;
   border-radius: 20px;
   background-size: cover;
   background-position: center;
-  box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.3);
 `;
 
 const StName = styled.h3`
   font-size: large;
-  color: black;
+  color: #2f58ac;
   text-align: center;
   margin-bottom: 10px;
-  border: 1px solid gray;
+  padding-bottom: 4px;
+  border: 2px solid #2f58ac;
   border-top-style: none;
   border-left-style: none;
   border-right-style: none;
   border-bottom-style: 1px;
-  padding-bottom: 8px;
   width: 100px;
 `;
 
 const StDesc = styled.div`
-  padding-top: 4px;
+  padding-top: 5px;
   font-size: 16px;
-  color: black;
+  color: #2f58ac;
   text-align: center;
   margin-bottom: 10px;
-  border: 1px solid gray;
+  border: 2px solid #2f58ac;
   border-radius: 10px 10px 10px 10px;
   width: 250px;
   height: 60px;
@@ -152,6 +157,7 @@ const StButton = styled.button`
   align-items: center;
   width: 130px;
   height: 40px;
+  margin-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
   border-radius: 10px;

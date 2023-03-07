@@ -9,7 +9,6 @@ import male from "../../assets/img/male.PNG";
 import female from "../../assets/img/female.PNG";
 
 const MyDog = () => {
-  const [edit, setEdit] = useState(false);
   const { id } = useParams();
   const Authorization = sessionStorage.getItem("accessToken");
   const navigate = useNavigate();
@@ -42,42 +41,16 @@ const MyDog = () => {
   }, []);
 
   // props 끌어올리기 용!!!
-  const onChangeTrue = () => {
-    setEdit(false);
-  };
+  // const onChangeTrue = () => {
+  //   setEdit(false);
+  // };
 
   return (
     <Layout title="설정">
       <Container>
-        {!edit ? (
-          <StBefore>
-            <StBox>이름</StBox>
-            <StName>{dog.dogName}</StName>
-
-            <StBox>성별</StBox>
-            {dog.dogSex === "male" ? <StImg src={male} /> : <StImg src={female} />}
-
-            <StBox>사진</StBox>
-            <div>
-              {images.map((image) => (
-                <div key={image.id}>
-                  <StPeople style={{ backgroundImage: `url(${image.imageUrl})` }} />
-                </div>
-              ))}
-            </div>
-            <StBox>설명</StBox>
-            <StDesc>{dog.dogDetails}</StDesc>
-            <StBtnGroup>
-              <StButton onClick={() => setEdit(true)}>강아지 수정</StButton>
-              {/* 보류 */}
-              {/* <StButton onClick={() => onDeleteDog()}>강아지 삭제</StButton> */}
-            </StBtnGroup>
-          </StBefore>
-        ) : (
-          <StBefore>
-            <EditDog dog={dog} images={images} edit={edit} onChangeTrue={onChangeTrue} />
-          </StBefore>
-        )}
+        <StBefore>
+          <EditDog dog={dog} images={images} />
+        </StBefore>
       </Container>
     </Layout>
   );

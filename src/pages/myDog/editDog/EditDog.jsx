@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import male from "../../../assets/img/male.PNG";
 import female from "../../../assets/img/female.PNG";
 
-const EditDog = ({ dog, images, onChangeTrue }) => {
+const EditDog = ({ dog, images }) => {
+  const navigate = useNavigate();
   const Authorization = sessionStorage.getItem("accessToken");
   const { id } = useParams();
   const [editData, setEditData] = useState({});
@@ -122,9 +123,8 @@ const EditDog = ({ dog, images, onChangeTrue }) => {
             });
           }}
         />
-        {/* <Space /> */}
         <StBtnGroup>
-          <StButton2 className="cancel" onClick={onChangeTrue}>
+          <StButton2 className="cancel" onClick={() => navigate(-1)}>
             취소하기
           </StButton2>
           <StButton onClick={() => onEditData(editData)}>수정완료</StButton>
@@ -181,6 +181,7 @@ const StName = styled.input`
   width: 100px;
 `;
 const StDesc = styled.input`
+  padding-top: 5px;
   font-size: 16px;
   color: #2f58ac;
   text-align: center;
@@ -218,10 +219,6 @@ const StButton2 = styled.div`
   border: 1px solid white;
   border-radius: 20px;
   cursor: pointer;
-`;
-
-const Space = styled.div`
-  height: 20px;
 `;
 
 const StBtnGroup = styled.div`

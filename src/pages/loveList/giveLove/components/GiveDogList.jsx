@@ -19,7 +19,6 @@ const GiveDogList = () => {
       },
     });
     setDogs(data);
-    console.log(data);
     setLoading(false);
     setHasMore(data.length !== 0);
     if (data.length !== 0) {
@@ -49,23 +48,23 @@ const GiveDogList = () => {
 
   //좋아요 모달
   const [modalOpen, setModalOpen] = useState(false);
+  const [myDogId, setMyDogId] = useState(0);
 
-  const showModal = () => {
+  const showModal = (dogId) => {
     setModalOpen(true);
+    setMyDogId(dogId);
   };
 
   return (
     <Container>
       <StOnePage>
         <OneDog>
-          {dogs.map(({ userId, dogName, dogSex, imageUrl }) => (
+          {dogs.map(({ userId, dogId, dogName, dogSex, imageUrl }) => (
             <Stgroup key={userId}>
               <StDog style={{ backgroundImage: `url(${imageUrl})` }} />
               {dogSex === "female" ? <StName> {dogName}</StName> : <StName> {dogName}</StName>}
-              <StProfile onClick={showModal}>프로필</StProfile>
-              {modalOpen && (
-                <Profile dogId={dogs.dogId} dogName={dogs.dogName} setModalOpen={setModalOpen} />
-              )}
+              <StProfile onClick={() => showModal(dogId)}>프로필</StProfile>
+              {modalOpen && <Profile myDogId={myDogId} setModalOpen={setModalOpen} />}
             </Stgroup>
           ))}
         </OneDog>
